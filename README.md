@@ -67,19 +67,16 @@ http://127.0.0.1:5000
 ## Project Screenshots
 
 ### Home Pages
-![Home Page](screenshot/Home.png)
-![Home Page 2](screenshot/H1.png)
+![Home Page](screenshot/Home/Home.png)
+![Home Page 2](screenshot/Home/H1.png)
 
 ### Input Pages
-![Input 1](screenshot/I1.png)
-![Input 2](screenshot/I2.png)
-![Input 3](screenshot/I3.png)
-![Input 4](screenshot/I4.png)
-![Input 5](screenshot/I5.png)
-![Input 6](screenshot/I6.png)
-![Input 7](screenshot/I7.png)
-![Input 8](screenshot/I8.png)
+![Input 1](screenshot/input/I1.png)
+![Input 2](screenshot/input/I2.png)
+![Input 3](screenshot/input/I3.png)
+![Input 4](screenshot/input/I4.png)
+![Input 5](screenshot/input/I5.png)
 
 ### Output Pages
-![Result 1](screenshot/R1.png)
-![Result 2](screenshot/R2.png)
+![Result 1](screenshot/result/R1.png)
+![Result 2](screenshot/result/R2.png)
