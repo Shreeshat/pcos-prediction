@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treatment Options - PCOS Care</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg {
+    background: linear-gradient(135deg, #1e3a5f 0%, #4a5568 100%);
+}
+.medical-gradient {
+    background: linear-gradient(135deg, #4a7863 0%, #5d8b7a 100%);
+}
+.section-fade {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease-in-out;
+}
+        .floating-card {
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+        .floating-card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+
+    <!-- Navigation -->
+    <nav class="gradient-bg shadow-lg fixed w-full z-50 top-0">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-heartbeat text-white text-3xl"></i>
+                    <span class="text-white font-bold text-2xl">PCOS Care</span>
+                </div>
+               <div class="hidden md:flex space-x-6">
+    <a href="{{ url_for('index') }}" class="text-white text-lg hover:text-blue-200 transition duration-300">Home</a>
+    <a href="{{ url_for('guide') }}" class="text-white text-lg hover:text-blue-200 transition duration-300">PCOS Guide</a>
+    <a href="{{ url_for('treatment') }}" class="text-white text-lg hover:text-blue-200 transition duration-300">Treatment</a>
+    <a href="{{ url_for('lifestyle') }}" class="text-white text-lg hover:text-blue-200 transition duration-300">Lifestyle</a>
+</div>
+
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-20">
+
+        <!-- Hero Section -->
+        <section class="medical-gradient text-white py-16">
+            <div class="container mx-auto px-4 text-center">
+                <h1 class="text-5xl font-bold mb-6">PCOS Treatment Options</h1>
+                <p class="text-xl mb-8 max-w-3xl mx-auto">
+                    Explore comprehensive treatment approaches to manage PCOS symptoms and improve your quality of life.
+                </p>
+            </div>
+        </section>
+
+        <!-- Treatment Categories -->
+        <section class="py-12">
+            <div class="container mx-auto px-4">
+                <h2 class="text-4xl font-bold text-center text-gray-800 mb-12">Treatment Approaches</h2>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    
+                    <!-- Lifestyle Management -->
+                    <div class="floating-card bg-white rounded-xl shadow-xl p-6 text-center">
+                        <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-heartbeat text-green-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Lifestyle Management</h3>
+                        <p class="text-gray-600 mb-4">
+                            Foundation of PCOS treatment through diet, exercise, and stress management.
+                        </p>
+                        <ul class="text-gray-600 space-y-2 text-sm text-left">
+                            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Weight management</li>
+                            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Exercise programs</li>
+                            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Nutritional counseling</li>
+                        </ul>
+                    </div>
+
+                    <!-- Medications -->
+                    <div class="floating-card bg-white rounded-xl shadow-xl p-6 text-center">
+                        <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-pills text-blue-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Medications</h3>
+                        <p class="text-gray-600 mb-4">
+                            Pharmaceutical interventions to manage symptoms and regulate cycles.
+                        </p>
+                        <ul class="text-gray-600 space-y-2 text-sm text-left">
+                            <li class="flex items-center"><i class="fas fa-check text-blue-500 mr-2"></i> Hormonal birth control</li>
+                            <li class="flex items-center"><i class="fas fa-check text-blue-500 mr-2"></i> Metformin</li>
+                            <li class="flex items-center"><i class="fas fa-check text-blue-500 mr-2"></i> Anti-androgens</li>
+                        </ul>
+                    </div>
+
+                    <!-- Fertility Treatments -->
+                    <div class="floating-card bg-white rounded-xl shadow-xl p-6 text-center">
+                        <div class="bg-pink-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-baby text-pink-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Fertility Treatments</h3>
+                        <p class="text-gray-600 mb-4">
+                            Assisted reproductive technologies for women trying to conceive.
+                        </p>
+                        <ul class="text-gray-600 space-y-2 text-sm text-left">
+                            <li class="flex items-center"><i class="fas fa-check text-pink-500 mr-2"></i> Ovulation induction</li>
+                            <li class="flex items-center"><i class="fas fa-check text-pink-500 mr-2"></i> IVF treatments</li>
+                            <li class="flex items-center"><i class="fas fa-check text-pink-500 mr-2"></i> Surgical options</li>
+                        </ul>
+                    </div>
+
+                    <!-- Symptom Management -->
+                    <div class="floating-card bg-white rounded-xl shadow-xl p-6 text-center">
+                        <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-stethoscope text-purple-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Symptom Management</h3>
+                        <p class="text-gray-600 mb-4">
+                            Targeted treatments for specific PCOS symptoms and complications.
+                        </p>
+                        <ul class="text-gray-600 space-y-2 text-sm text-left">
+                            <li class="flex items-center"><i class="fas fa-check text-purple-500 mr-2"></i> Hair removal</li>
+                            <li class="flex items-center"><i class="fas fa-check text-purple-500 mr-2"></i> Skin treatments</li>
+                            <li class="flex items-center"><i class="fas fa-check text-purple-500 mr-2"></i> Mental health support</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Detailed Treatment Information -->
+        <section class="py-12 bg-gray-100">
+            <div class="container mx-auto px-4">
+                <h2 class="text-4xl font-bold text-center text-gray-800 mb-12">Comprehensive Treatment Guide</h2>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    
+                    <!-- Medical Treatments -->
+                    <div class="floating-card bg-white rounded-xl shadow-xl p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-user-md text-blue-600 text-xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-800">Medical Treatments</h3>
+                        </div>
+                        
+                        <div class="space-y-6">
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-blue-800 mb-2">Hormonal Therapy</h4>
+                                <ul class="text-blue-700 space-y-2">
+                                    <li><strong>Birth Control Pills:</strong> Regulate menstrual cycles and reduce androgen levels</li>
+                                    <li><strong>Progestin Therapy:</strong> Induce periods and protect endometrial health</li>
+                                    <li><strong>Anti-androgen Medications:</strong> Reduce hair growth and acne</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-green-800 mb-2">Insulin-Sensitizing Drugs</h4>
+                                <ul class="text-green-700 space-y-2">
+                                    <li><strong>Metformin:</strong> Improves insulin sensitivity and may aid weight loss</li>
+                                    <li><strong>GLP-1 Receptor Agonists:</strong> Help with weight management</li>
+                                    <li><strong>Inositol Supplements:</strong> Natural approach to improve insulin function</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fertility Treatments -->
+                    <div class="floating-card bg-white rounded-xl shadow-xl p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="bg-pink-100 w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-baby text-pink-600 text-xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-800">Fertility Treatments</h3>
+                        </div>
+                        
+                        <div class="space-y-6">
+                            <div class="bg-pink-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-pink-800 mb-2">Ovulation Induction</h4>
+                                <ul class="text-pink-700 space-y-2">
+                                    <li><strong>Clomiphene Citrate:</strong> First-line treatment to stimulate ovulation</li>
+                                    <li><strong>Letrozole:</strong> Often more effective than clomiphene for PCOS</li>
+                                    <li><strong>Gonadotropins:</strong> Injectable hormones for resistant cases</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-purple-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-purple-800 mb-2">Advanced Options</h4>
+                                <ul class="text-purple-700 space-y-2">
+                                    <li><strong>In Vitro Fertilization (IVF):</strong> For complex fertility issues</li>
+                                    <li><strong>Laparoscopic Ovarian Drilling:</strong> Surgical option to restore ovulation</li>
+                                    <li><strong>Oocyte Cryopreservation:</strong> Fertility preservation for future</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Additional Treatment Options -->
+                <div class="grid md:grid-cols-2 gap-8 mt-8">
+                    <div class="floating-card bg-white rounded-xl shadow-xl p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="bg-yellow-100 w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-spa text-yellow-600 text-xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-800">Complementary Therapies</h3>
+                        </div>
+                        <ul class="text-gray-600 space-y-4">
+                            <li class="flex items-start">
+                                <i class="fas fa-seedling text-green-500 mt-1 mr-3"></i>
+                                <div>
+                                    <strong class="text-gray-800">Herbal Supplements:</strong>
+                                    <p class="text-gray-600">Spearmint tea, cinnamon, berberine for symptom management</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-acupuncture text-blue-500 mt-1 mr-3"></i>
+                                <div>
+                                    <strong class="text-gray-800">Acupuncture:</strong>
+                                    <p class="text-gray-600">May help regulate cycles and reduce stress</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-capsules text-purple-500 mt-1 mr-3"></i>
+                                <div>
+                                    <strong class="text-gray-800">Nutritional Supplements:</strong>
+                                    <p class="text-gray-600">Vitamin D, omega-3s, N-acetylcysteine for metabolic health</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="floating-card bg-white rounded-xl shadow-xl p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="bg-red-100 w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-procedures text-red-600 text-xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-800">Surgical Options</h3>
+                        </div>
+                        <ul class="text-gray-600 space-y-4">
+                            <li class="flex items-start">
+                                <i class="fas fa-scissors text-red-500 mt-1 mr-3"></i>
+                                <div>
+                                    <strong class="text-gray-800">Ovarian Drilling:</strong>
+                                    <p class="text-gray-600">Laparoscopic procedure to restore ovulation in resistant cases</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-weight text-orange-500 mt-1 mr-3"></i>
+                                <div>
+                                    <strong class="text-gray-800">Bariatric Surgery:</strong>
+                                    <p class="text-gray-600">For severe obesity with PCOS to improve metabolic health</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-laser text-pink-500 mt-1 mr-3"></i>
+                                <div>
+                                    <strong class="text-gray-800">Laser Therapies:</strong>
+                                    <p class="text-gray-600">For hirsutism management and cosmetic concerns</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Treatment Success Rates -->
+        <section class="py-12 bg-white">
+            <div class="container mx-auto px-4">
+                <h2 class="text-4xl font-bold text-center text-gray-800 mb-12">Treatment Success Rates</h2>
+                
+                <div class="grid md:grid-cols-3 gap-8">
+                    
+                    <div class="text-center">
+                        <div class="bg-green-100 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-3xl font-bold text-green-600">85%</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Lifestyle Changes</h3>
+                        <p class="text-gray-600">Success rate in improving symptoms with comprehensive lifestyle modifications</p>
+                    </div>
+
+                    <div class="text-center">
+                        <div class="bg-blue-100 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-3xl font-bold text-blue-600">70%</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Medication Response</h3>
+                        <p class="text-gray-600">Women who respond positively to first-line medical treatments</p>
+                    </div>
+
+                    <div class="text-center">
+                        <div class="bg-pink-100 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-3xl font-bold text-pink-600">80%</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Fertility Success</h3>
+                        <p class="text-gray-600">Pregnancy rates with proper fertility treatments and management</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-8">
+        <div class="container mx-auto px-6 text-center">
+            <div class="flex items-center justify-center space-x-2 mb-4">
+                <i class="fas fa-heartbeat text-white text-2xl"></i>
+                <span class="text-white font-bold text-xl">PCOS Care</span>
+            </div>
+            <p class="text-gray-400 mb-4">
+                Empowering women with advanced PCOS diagnosis and management tools.
+            </p>
+            <p class="text-gray-500 text-sm">
+                © 2025 PCOS Care System | All Rights Reserved
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>

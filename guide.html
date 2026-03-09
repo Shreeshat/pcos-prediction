@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCOS Guide - PCOS Care</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg {
+    background: linear-gradient(135deg, #1e3a5f 0%, #4a5568 100%);
+}
+.medical-gradient {
+    background: linear-gradient(135deg, #4a7863 0%, #5d8b7a 100%);
+}
+.section-fade {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease-in-out;
+}
+        .section-fade.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .floating-card {
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+        .floating-card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+
+    <!-- Navigation -->
+    <nav class="gradient-bg shadow-lg fixed w-full z-50 top-0">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-heartbeat text-white text-3xl"></i>
+                    <span class="text-white font-bold text-2xl">PCOS Care</span>
+                </div>
+               <div class="hidden md:flex space-x-6">
+                <a href="{{ url_for('index') }}" class="text-white text-lg hover:text-blue-200 transition duration-300">Home</a>
+               <a href="{{ url_for('guide') }}" class="text-white text-lg hover:text-blue-200 transition duration-300">PCOS Guide</a>
+               <a href="{{ url_for('treatment') }}" class="text-white text-lg hover:text-blue-200 transition duration-300">Treatment</a>
+               <a href="{{ url_for('lifestyle') }}" class="text-white text-lg hover:text-blue-200 transition duration-300">Lifestyle</a>
+    
+
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-20">
+
+        <!-- Hero Section -->
+        <section class="medical-gradient text-white py-16">
+            <div class="container mx-auto px-4 text-center">
+                <h1 class="text-5xl font-bold mb-6">PCOS Comprehensive Guide</h1>
+                <p class="text-xl mb-8 max-w-3xl mx-auto">
+                    Polycystic Ovary Syndrome (PCOS) is a hormonal condition that affects 1 in 10 women of reproductive age.
+                    Early diagnosis and lifestyle management can help prevent long-term health issues.
+                </p>
+                <a href="#more-info" class="bg-white text-blue-600 px-8 py-3 rounded-lg text-lg font-semibold hover:bg-blue-50 transition duration-300 transform hover:scale-105 inline-block">
+                    Learn More
+                    <i class="fas fa-arrow-down ml-2"></i>
+                </a>
+            </div>
+        </section>
+
+        <!-- Quick Info Sections -->
+        <section id="more-info" class="container mx-auto px-4 py-12">
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- What is PCOS -->
+                <div class="floating-card bg-white rounded-xl shadow-xl p-6">
+                    <div class="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-question-circle text-blue-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">What is PCOS?</h3>
+                    <p class="text-gray-600">
+                        PCOS is a hormonal disorder causing irregular menstrual cycles, high androgen levels, and ovarian cysts. 
+                        It can lead to acne, weight gain, and excess hair growth.
+                    </p>
+                </div>
+
+                <!-- Causes -->
+                <div class="floating-card bg-white rounded-xl shadow-xl p-6">
+                    <div class="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-dna text-green-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Causes</h3>
+                    <ul class="text-gray-600 space-y-2">
+                        <li class="flex items-center"><i class="fas fa-circle text-xs mr-2 text-green-500"></i> Excess insulin production</li>
+                        <li class="flex items-center"><i class="fas fa-circle text-xs mr-2 text-green-500"></i> Low-grade inflammation</li>
+                        <li class="flex items-center"><i class="fas fa-circle text-xs mr-2 text-green-500"></i> Genetics and family history</li>
+                        <li class="flex items-center"><i class="fas fa-circle text-xs mr-2 text-green-500"></i> High levels of androgens</li>
+                    </ul>
+                </div>
+
+                <!-- Symptoms -->
+                <div class="floating-card bg-white rounded-xl shadow-xl p-6">
+                    <div class="bg-purple-100 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-exclamation-triangle text-purple-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Symptoms</h3>
+                    <ul class="text-gray-600 space-y-2">
+                        <li class="flex items-center"><i class="fas fa-circle text-xs mr-2 text-purple-500"></i> Irregular periods</li>
+                        <li class="flex items-center"><i class="fas fa-circle text-xs mr-2 text-purple-500"></i> Excess facial/body hair</li>
+                        <li class="flex items-center"><i class="fas fa-circle text-xs mr-2 text-purple-500"></i> Weight gain</li>
+                        <li class="flex items-center"><i class="fas fa-circle text-xs mr-2 text-purple-500"></i> Acne and oily skin</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Detailed Information Section -->
+        <section class="bg-gray-100 py-12">
+            <div class="container mx-auto px-4">
+                <h2 class="text-4xl font-bold text-center text-gray-800 mb-4">Causes, Diagnosis and Symptoms</h2>
+                <p class="text-lg text-gray-600 text-center mb-12 max-w-3xl mx-auto">
+                    Learn about the causes of PCOS, the diagnostic process, and practical tips for managing its symptoms effectively.
+                </p>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Card 1 -->
+                    <div class="floating-card bg-white rounded-xl shadow-xl overflow-hidden">
+                       <img src="{{ url_for('static', filename='images/pcos.png') }}"alt="What is PCOS?">
+
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-3">What is PCOS?</h3>
+                            <p class="text-gray-600 mb-4">
+                                PCOS (Polycystic Ovary Syndrome) is a hormonal disorder that affects women of reproductive age.
+                                It can cause irregular periods, excess hair growth, acne, and sometimes cysts in the ovaries.
+                            </p>
+                            <button onclick="toggleInfo(1)" class="w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white py-2 rounded-lg font-semibold hover:from-blue-600 hover:to-purple-600 transition duration-300">
+                                <i class="fas fa-book mr-2"></i>Read More
+                            </button>
+                            <div id="info1" class="hidden mt-4 p-4 bg-blue-50 rounded-lg">
+                                <p class="text-blue-800">
+                                    Early diagnosis and lifestyle changes can help manage symptoms. PCOS affects approximately 1 in 10 women 
+                                    and is one of the most common endocrine disorders in women of reproductive age.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="floating-card bg-white rounded-xl shadow-xl overflow-hidden">
+                       <img src="{{ url_for('static', filename='images/new.png') }}" alt="Causes of PCOS">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-3">Causes of PCOS</h3>
+                            <p class="text-gray-600 mb-4">
+                                The exact cause of PCOS is unknown, but it is linked to insulin resistance, 
+                                excess production of male hormones (androgens), and genetics.
+                            </p>
+                            <button onclick="toggleInfo(2)" class="w-full bg-gradient-to-r from-green-500 to-blue-500 text-white py-2 rounded-lg font-semibold hover:from-green-600 hover:to-blue-600 transition duration-300">
+                                <i class="fas fa-book mr-2"></i>Read More
+                            </button>
+                            <div id="info2" class="hidden mt-4 p-4 bg-green-50 rounded-lg">
+                                <p class="text-green-800">
+                                    Lifestyle factors can also influence the severity of symptoms. Research suggests that PCOS may be related 
+                                    to insulin resistance, which affects how the body processes sugar and can lead to increased androgen production.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="floating-card bg-white rounded-xl shadow-xl overflow-hidden">
+                        <img src="{{ url_for('static', filename='images/diagnosis.jpg') }}" alt="Symptoms of PCOS">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-3">Symptoms of PCOS</h3>
+                            <p class="text-gray-600 mb-4">
+                                Common symptoms include irregular periods, weight gain, thinning hair on the scalp, acne, 
+                                and excessive hair growth on the face or body.
+                            </p>
+                            <button onclick="toggleInfo(3)" class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-2 rounded-lg font-semibold hover:from-purple-600 hover:to-pink-600 transition duration-300">
+                                <i class="fas fa-book mr-2"></i>Read More
+                            </button>
+                            <div id="info3" class="hidden mt-4 p-4 bg-purple-50 rounded-lg">
+                                <p class="text-purple-800">
+                                    Symptoms may vary from person to person. Some women may experience severe symptoms while others have mild ones. 
+                                    Proper diagnosis and treatment can help manage these symptoms effectively.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Fertility Section -->
+        <section class="py-12 bg-white">
+            <div class="container mx-auto px-4">
+                <h2 class="text-4xl font-bold text-center text-gray-800 mb-4">Fertility & Pregnancy</h2>
+                <p class="text-lg text-gray-600 text-center mb-12 max-w-3xl mx-auto">
+                    Learn about the impact of PCOS on fertility and explore effective ways to improve your chances of conception.
+                </p>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Card 1 -->
+                    <div class="floating-card bg-white rounded-xl shadow-xl overflow-hidden border border-gray-200">
+                      <img src="{{ url_for('static', filename='images/fertility.png') }}" alt="PCOS and fertility">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-3">PCOS and Fertility</h3>
+                            <p class="text-gray-600 mb-4">
+                                PCOS can make it harder to conceive due to irregular ovulation, but many women with PCOS can become pregnant.
+                            </p>
+                            <button onclick="toggleInfo(4)" class="w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white py-2 rounded-lg font-semibold hover:from-blue-600 hover:to-purple-600 transition duration-300">
+                                <i class="fas fa-book mr-2"></i>Read More
+                            </button>
+                            <div id="info4" class="hidden mt-4 p-4 bg-blue-50 rounded-lg">
+                                <p class="text-blue-800">
+                                    With the right treatment and lifestyle changes, many women with PCOS successfully conceive. 
+                                    Treatments may include ovulation induction, lifestyle modifications, and assisted reproductive technologies.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="floating-card bg-white rounded-xl shadow-xl overflow-hidden border border-gray-200">
+                        <img src="{{ url_for('static', filename='images/wt.png') }}" alt="PCOS and weight">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-3">PCOS and Weight</h3>
+                            <p class="text-gray-600 mb-4">
+                                Weight gain is common with PCOS due to hormonal imbalances. Healthy eating and exercise can help.
+                            </p>
+                            <button onclick="toggleInfo(5)" class="w-full bg-gradient-to-r from-green-500 to-blue-500 text-white py-2 rounded-lg font-semibold hover:from-green-600 hover:to-blue-600 transition duration-300">
+                                <i class="fas fa-book mr-2"></i>Read More
+                            </button>
+                            <div id="info5" class="hidden mt-4 p-4 bg-green-50 rounded-lg">
+                                <p class="text-green-800">
+                                    Even a 5-10% reduction in body weight can significantly improve PCOS symptoms and restore ovulation. 
+                                    Focus on a balanced diet and regular physical activity for sustainable weight management.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="floating-card bg-white rounded-xl shadow-xl overflow-hidden border border-gray-200">
+                       <img src="{{ url_for('static', filename='images/gest.jpg') }}" alt="Gestational diabetes">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-3">Gestational Diabetes</h3>
+                            <p class="text-gray-600 mb-4">
+                                Women with PCOS have a higher risk of developing gestational diabetes during pregnancy.
+                            </p>
+                            <button onclick="toggleInfo(6)" class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-2 rounded-lg font-semibold hover:from-purple-600 hover:to-pink-600 transition duration-300">
+                                <i class="fas fa-book mr-2"></i>Read More
+                            </button>
+                            <div id="info6" class="hidden mt-4 p-4 bg-purple-50 rounded-lg">
+                                <p class="text-purple-800">
+                                    Regular screening and healthy habits can help reduce the risk. Monitoring blood sugar levels, 
+                                    maintaining a healthy diet, and regular exercise are crucial during pregnancy for women with PCOS.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Complications Section -->
+        <section class="py-12 bg-gray-100">
+            <div class="container mx-auto px-4">
+                <div class="bg-white rounded-xl shadow-xl p-8">
+                    <h3 class="text-3xl font-bold text-gray-800 mb-6">Possible Complications</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <p class="text-gray-600 mb-6">
+                                Without proper management, PCOS can lead to complications that affect both reproductive and overall health.
+                            </p>
+                            <ul class="text-gray-600 space-y-3">
+                                <li class="flex items-center"><i class="fas fa-exclamation-circle text-red-500 mr-3"></i> Infertility and reproductive issues</li>
+                                <li class="flex items-center"><i class="fas fa-exclamation-circle text-red-500 mr-3"></i> Type 2 diabetes and insulin resistance</li>
+                                <li class="flex items-center"><i class="fas fa-exclamation-circle text-red-500 mr-3"></i> Sleep apnea and breathing problems</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <ul class="text-gray-600 space-y-3 mt-8 md:mt-0">
+                                <li class="flex items-center"><i class="fas fa-exclamation-circle text-red-500 mr-3"></i> Metabolic syndrome and cardiovascular risks</li>
+                                <li class="flex items-center"><i class="fas fa-exclamation-circle text-red-500 mr-3"></i> Endometrial cancer risk</li>
+                                <li class="flex items-center"><i class="fas fa-exclamation-circle text-red-500 mr-3"></i> Depression and anxiety disorders</li>
+                            </ul>
+                            <p class="text-gray-600 mt-6">
+                                A healthy lifestyle and timely treatment can significantly reduce these risks and improve quality of life.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-8">
+        <div class="container mx-auto px-6 text-center">
+            <div class="flex items-center justify-center space-x-2 mb-4">
+                <i class="fas fa-heartbeat text-white text-2xl"></i>
+                <span class="text-white font-bold text-xl">PCOS Care</span>
+            </div>
+            <p class="text-gray-400 mb-4">
+                Empowering women with advanced PCOS diagnosis and management tools.
+            </p>
+            <p class="text-gray-500 text-sm">
+                © 2025 PCOS Care System | All Rights Reserved
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleInfo(id) {
+            const info = document.getElementById('info' + id);
+            const button = event.target;
+            
+            if (info.classList.contains('hidden')) {
+                info.classList.remove('hidden');
+                button.innerHTML = '<i class="fas fa-times mr-2"></i>Show Less';
+            } else {
+                info.classList.add('hidden');
+                button.innerHTML = '<i class="fas fa-book mr-2"></i>Read More';
+            }
+        }
+
+        // Animation on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.floating-card').forEach(card => {
+                card.classList.add('section-fade');
+                observer.observe(card);
+            });
+        });
+    </script>
+
+</body>
+</html>

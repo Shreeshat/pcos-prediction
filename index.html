@@ -1,0 +1,3670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Advanced PCOS Prediction System using machine learning for accurate diagnosis and comprehensive women's health management">
+    <meta name="keywords" content="PCOS, prediction, women's health, machine learning, diagnosis, healthcare">
+    <meta name="author" content="PCOS Care Team">
+    
+    <!-- External Libraries -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    
+    <title>PCOS Prediction System - Professional Medical Analysis & Diagnosis</title>
+    
+    <style>
+        :root {
+            --primary-blue: #1e40af;
+            --secondary-blue: #3b82f6;
+            --accent-green: #10b981;
+            --warning-red: #ef4444;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+        }
+
+        /* Critical CSS - Inlined for faster rendering */
+        .gradient-bg {
+            background: linear-gradient(135deg, #0f1a2c 0%, #1e3a5f 100%);
+        }
+        
+        .medical-gradient {
+            background: linear-gradient(135deg, #3a6b7e 0%, #5d8b7a 100%);
+        }
+        
+        .section-fade {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-in-out;
+        }
+        
+        .section-fade.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .floating-card {
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .floating-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .prediction-result {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        }
+        
+        .admin-tab.active {
+            border-bottom-color: #3b82f6;
+            color: #3b82f6;
+        }
+        
+        .verification-section {
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1rem 0;
+            transition: all 0.3s ease;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .history-card {
+            border-left: 4px solid;
+            transition: all 0.3s ease;
+        }
+        
+        .history-card.positive {
+            border-left-color: #ef4444;
+            background: #fef2f2;
+        }
+        
+        .history-card.negative {
+            border-left-color: #10b981;
+            background: #f0fdf4;
+        }
+        
+        .explore-image {
+            height: 200px;
+            object-fit: cover;
+            width: 100%;
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .bounce-animation {
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translate(0,  0px); }
+            50%  { transform: translate(0, 15px); }
+            100%   { transform: translate(0, -0px); }
+        }
+        
+        /* Video Background Styles */
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .video-container video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translateX(-50%) translateY(-50%);
+            z-index: 0;
+        }
+        
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+        
+        .video-content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 0 20px;
+        }
+        
+        /* Team Section Styles */
+        .team-card {
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .team-image {
+            height: 250px;
+            object-fit: cover;
+            width: 100%;
+            transition: transform 0.5s ease;
+        }
+        
+        .team-card:hover .team-image {
+            transform: scale(1.05);
+        }
+
+        /* Custom Animations */
+        @keyframes fadeInLeft { 
+            from { opacity: 0; transform: translateX(-20px); } 
+            to { opacity: 1; transform: translateX(0); } 
+        }
+        
+        @keyframes fadeInRight { 
+            from { opacity: 0; transform: translateX(20px); } 
+            to { opacity: 1; transform: translateX(0); } 
+        }
+        
+        @keyframes fadeIn { 
+            from { opacity: 0; } 
+            to { opacity: 1; } 
+        }
+        
+        @keyframes fadeInUp { 
+            from { opacity: 0; transform: translateY(40px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        
+        @keyframes popIn { 
+            from { transform: scale(0.8); opacity: 0; } 
+            to { transform: scale(1); opacity: 1; } 
+        }
+
+        .animate-fadeInLeft { animation: fadeInLeft 0.8s ease-in-out; }
+        .animate-fadeInRight { animation: fadeInRight 0.8s ease-in-out; }
+        .animate-fadeIn { animation: fadeIn 1s ease-in-out; }
+        .animate-fadeInUp { animation: fadeInUp 1.2s ease-out; }
+        .animate-popIn { animation: popIn 0.8s ease-out; }
+
+        /* Navigation Styles */
+        .nav-link {
+            position: relative;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .nav-link::after {
+            content: "";
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(to right, #60a5fa, #2563eb, #1e3a8a);
+            transition: width 0.3s ease-in-out;
+            border-radius: 2px;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .nav-link:hover {
+            color: #bfdbfe;
+            transform: translateY(-2px);
+        }
+
+        /* Prediction Button */
+        .predict-btn {
+            width: 100%;
+            background: linear-gradient(to right, #2563eb, #7c3aed);
+            color: #fff;
+            padding: 1rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            font-size: 1.25rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+            border: none;
+            outline: none;
+            transition: all 0.35s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .predict-btn:hover {
+            background: linear-gradient(to right, #1e3a8a, #6d28d9);
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 6px 25px rgba(99, 102, 241, 0.45);
+        }
+        
+        .predict-btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -75%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(120deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.6) 50%, rgba(255, 255, 255, 0) 100%);
+            transform: skewX(-25deg);
+            transition: 0.75s;
+        }
+        
+        .predict-btn:hover::before {
+            left: 125%;
+        }
+        
+        .predict-btn:active {
+            transform: scale(0.98);
+            box-shadow: 0 3px 10px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Loading States */
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        
+        .spinner {
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #3498db;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Focus styles for accessibility */
+        .focus-visible:focus {
+            outline: 2px solid #3b82f6;
+            outline-offset: 2px;
+        }
+
+        /* Form Validation Styles */
+        .error-field {
+            border-color: #ef4444 !important;
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        .success-field {
+            border-color: #10b981 !important;
+        }
+
+        /* Loading States */
+        .loading-spinner {
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #3498db;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+
+        /* Print Styles */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            
+            .print-break {
+                page-break-before: always;
+            }
+
+            .print-break-before {
+                page-break-before: always;
+            }
+            
+            .print-break-after {
+                page-break-after: always;
+            }
+            
+            body {
+                font-size: 12pt;
+                line-height: 1.4;
+            }
+            
+            .bg-white {
+                background: white !important;
+            }
+            
+            .text-black {
+                color: black !important;
+            }
+        }
+
+        /* Screen reader only */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Symptom tracker specific styles */
+        .symptom-category {
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .symptom-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .severity-option {
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .severity-option:hover {
+            background-color: #f3f4f6;
+        }
+
+        .severity-option.selected {
+            background-color: #3b82f6;
+            color: white;
+        }
+
+        /* Hero Section Styles */
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+        }
+
+        .hero-stats {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        /* Prediction Layout */
+        .prediction-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 80vh;
+        }
+
+        .prediction-form-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .results-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 2rem auto 0;
+        }
+
+        /* Calendar Styles */
+        .calendar {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .calendar-header {
+            background: #3b82f6;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            background: #e5e7eb;
+        }
+
+        .calendar-day {
+            background: white;
+            padding: 0.75rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .calendar-day:hover {
+            background: #f3f4f6;
+        }
+
+        .calendar-day.selected {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .calendar-day.has-symptoms {
+            background: #fef3c7;
+        }
+
+        .calendar-day.period {
+            background: #fecaca;
+        }
+
+        /* Dashboard Styles */
+        .dashboard-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+
+        .trend-up {
+            color: #10b981;
+        }
+
+        .trend-down {
+            color: #ef4444;
+        }
+
+        /* Support Section Styles */
+        .support-category {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .resource-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .emergency-contact {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-left: 4px solid #f59e0b;
+        }
+
+        .support-group {
+            background: linear-gradient(135deg, #dbeafe 0%, #93c5fd 100%);
+            border-left: 4px solid #3b82f6;
+        }
+
+        .mental-health {
+            background: linear-gradient(135deg, #f3e8ff 0%, #c4b5fd 100%);
+            border-left: 4px solid #8b5cf6;
+        }
+
+        /* Team Grid Alignment */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            justify-items: center;
+        }
+
+        .team-member {
+            text-align: center;
+            max-width: 300px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-600 text-white p-2 z-50">Skip to main content</a>
+
+    <!-- Navigation -->
+    <nav class="bg-[#0f1a2c] shadow-lg fixed w-full z-50 top-0 transition-all duration-500" role="navigation" aria-label="Main navigation" style="background-color: #0f1a2c !important;">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <!-- Logo -->
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-heartbeat text-white text-3xl animate-pulse" aria-hidden="true"></i>
+                    <span class="text-white font-bold text-xl">PCOS Care</span>
+                </div>
+
+                <!-- Desktop Menu - Centered -->
+                <div class="hidden md:flex space-x-8" role="menubar">
+                    <a href="#" onclick="advancedNavClick(this); showSection('home')" class="nav-item text-white text-base font-medium transition-all duration-500 hover:text-blue-300 hover:scale-105" role="menuitem">Home</a>
+                    <a href="#" onclick="advancedNavClick(this); showSection('assessment')" class="nav-item text-white text-base font-medium transition-all duration-500 hover:text-blue-300 hover:scale-105" role="menuitem">Assessment</a>
+                    <a href="#" onclick="advancedNavClick(this); showSection('prediction')" class="nav-item text-white text-base font-medium transition-all duration-500 hover:text-blue-300 hover:scale-105" role="menuitem">Prediction</a>
+                    <a href="#" onclick="advancedNavClick(this); showSection('support')" class="nav-item text-white text-base font-medium transition-all duration-500 hover:text-blue-300 hover:scale-105" role="menuitem">Support</a>
+                    <a href="#" onclick="advancedNavClick(this); showSection('about')" class="nav-item text-white text-base font-medium transition-all duration-500 hover:text-blue-300 hover:scale-105" role="menuitem">About</a>
+                    <a href="#" onclick="advancedNavClick(this); showSection('contact')" class="nav-item text-white text-base font-medium transition-all duration-500 hover:text-blue-300 hover:scale-105" role="menuitem">Contact</a>
+                </div>
+
+                <!-- Right side controls - Login/Register -->
+                <div class="flex items-center space-x-4">
+                    <div id="auth-menu" class="flex space-x-4">
+                        <button onclick="advancedNavClick(this); showSection('login')" class="nav-item text-white text-base font-medium transition-all duration-500 hover:text-blue-300 hover:scale-105">
+                            Login
+                        </button>
+                        <button onclick="advancedNavClick(this); showSection('register')" class="nav-item bg-white text-[#0f1a2c] text-base font-medium px-4 py-2 rounded-lg transition-all duration-500 hover:bg-blue-50 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/25">
+                            Register
+                        </button>
+                    </div>
+                    <div id="user-menu" class="hidden flex items-center space-x-4">
+                        <div class="text-white text-base font-medium" id="user-name">User</div>
+                        <button onclick="advancedNavClick(this); showSection('profile')" class="nav-item text-white text-base font-medium transition-all duration-500 hover:text-blue-300 hover:scale-105">
+                            Profile
+                        </button>
+                        <button onclick="logout()" class="nav-item bg-red-600 text-white text-base font-medium px-4 py-2 rounded-lg transition-all duration-500 hover:bg-red-700 hover:scale-105">
+                            Logout
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" onclick="advancedNavClick(this)" class="md:hidden text-white p-2 focus:outline-none focus:ring-2 focus:ring-white rounded-lg transition-all duration-500 hover:scale-105" aria-expanded="false" aria-controls="mobile-menu">
+                    <i class="fas fa-bars text-lg"></i>
+                    <span class="sr-only">Open main menu</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="main-content">
+        <!-- Home Section -->
+        <section id="home-section" class="section-content">
+            <!-- Hero Section with Video Background -->
+            <div class="relative w-full h-screen overflow-hidden">
+                <video autoplay muted loop playsinline id="hero-video" class="absolute inset-0 w-full h-full object-cover">
+                    <source src="/static/images/pcos.mp4" type="video/mp4">
+                    <!-- Fallback image if video doesn't load -->
+                    <img src="/static/images/hero-fallback.jpg" alt="PCOS Care Background" class="w-full h-full object-cover">
+                </video>
+                <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+                <div class="relative z-10 h-full flex items-center justify-center text-center text-white px-4">
+                    <div class="max-w-4xl">
+                        <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                            PCOS Prediction & Care System
+                        </h1>
+                        <p class="text-lg md:text-xl mb-8 max-w-3xl mx-auto">
+                            Advanced machine learning-powered platform for PCOS prediction, diagnosis, and comprehensive women's health management.
+                        </p>
+                        <div class="flex justify-center">
+                            <button onclick="showSection('assessment')" class="bg-white text-blue-600 px-6 py-3 rounded-lg text-lg font-semibold hover:bg-blue-50 transition duration-300">
+                                Get Started →
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistics Section -->
+            <div class="py-16 bg-gradient-to-b from-blue-50 to-white">
+                <div class="container mx-auto px-6">
+                    <div class="bg-white/95 backdrop-blur-md rounded-2xl p-8 border border-gray-200 shadow-2xl">
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                            <!-- Dark Blue -->
+                            <div class="text-center">
+                                <div class="text-4xl font-bold text-blue-700 mb-3">96.8%</div>
+                                <div class="text-black text-lg font-semibold">Prediction Accuracy</div>
+                            </div>
+                            <!-- Dark Green -->
+                            <div class="text-center">
+                                <div class="text-4xl font-bold text-green-700 mb-3">10M+</div>
+                                <div class="text-black text-lg font-semibold">Women Affected</div>
+                            </div>
+                            <!-- Dark Violet -->
+                            <div class="text-center">
+                                <div class="text-4xl font-bold text-purple-700 mb-3">16+</div>
+                                <div class="text-black text-lg font-semibold">Assessment Parameters</div>
+                            </div>
+                            <!-- Dark Red -->
+                            <div class="text-center">
+                                <div class="text-4xl font-bold text-red-700 mb-3">5-10%</div>
+                                <div class="text-black text-lg font-semibold">Global Prevalence</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Grid -->
+            <section class="py-20 bg-gradient-to-b from-blue-50 to-white" aria-labelledby="features-heading">
+                <div class="container mx-auto px-6">
+                    <h2 id="features-heading" class="text-4xl font-bold text-center mb-14 text-gray-800 tracking-wide">
+                        Comprehensive PCOS Care
+                    </h2>
+
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
+                        <!-- Feature Cards -->
+                        <div class="floating-card bg-white rounded-2xl shadow-xl p-8 text-center hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 border border-blue-100" role="article">
+                            <div class="bg-blue-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-5 shadow-inner" aria-hidden="true">
+                                <i class="fas fa-brain text-blue-700 text-3xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-semibold mb-3 text-gray-800">AI-Powered Prediction</h3>
+                            <p class="text-gray-600 leading-relaxed">
+                                Harnessing advanced <b>SVM algorithms</b> with <b>96.8% accuracy</b> to predict PCOS risk based on your personal health profile.
+                            </p>
+                        </div>
+
+                        <div class="floating-card bg-white rounded-2xl shadow-xl p-8 text-center hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 border border-green-100" role="article">
+                            <div class="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-5 shadow-inner" aria-hidden="true">
+                                <i class="fas fa-file-medical text-green-700 text-3xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-semibold mb-3 text-gray-800">Certified Medical Reports</h3>
+                            <p class="text-gray-600 leading-relaxed">
+                                Generate detailed medical reports including risk factors, confidence levels, and personalized recommendations validated by professionals.
+                            </p>
+                        </div>
+
+                        <div class="floating-card bg-white rounded-2xl shadow-xl p-8 text-center hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 border border-purple-100" role="article">
+                            <div class="bg-purple-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-5 shadow-inner" aria-hidden="true">
+                                <i class="fas fa-clipboard-check text-purple-700 text-3xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-semibold mb-3 text-gray-800">Smart-Assessment</h3>
+                            <p class="text-gray-600 leading-relaxed">
+                                Guided questionnaires analyzing lifestyle, symptoms, and habits to evaluate your PCOS likelihood and track your progress.
+                            </p>
+                        </div>
+
+                        <div class="floating-card bg-white rounded-2xl shadow-xl p-8 text-center hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 border border-indigo-100" role="article">
+                            <div class="bg-indigo-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-5 shadow-inner" aria-hidden="true">
+                                <i class="fas fa-heartbeat text-indigo-700 text-3xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-semibold mb-3 text-gray-800">Health & Lifestyle Tracking</h3>
+                            <p class="text-gray-600 leading-relaxed">
+                                Monitor BMI, menstrual cycles, stress, diet, and physical activity with data-driven insights to support hormonal balance.
+                            </p>
+                        </div>
+
+                        <div class="floating-card bg-white rounded-2xl shadow-xl p-8 text-center hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 border border-pink-100" role="article">
+                            <div class="bg-pink-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-5 shadow-inner" aria-hidden="true">
+                                <i class="fas fa-comments text-pink-600 text-3xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-semibold mb-3 text-gray-800">Community & Support</h3>
+                            <p class="text-gray-600 leading-relaxed">
+                                Join a safe, empowering community where women share stories, get mental health support, and inspire each other on the PCOS journey.
+                            </p>
+                        </div>
+
+                        <div class="floating-card bg-white rounded-2xl shadow-xl p-8 text-center hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 border border-yellow-100" role="article">
+                            <div class="bg-yellow-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-5 shadow-inner" aria-hidden="true">
+                                <i class="fas fa-bell text-yellow-600 text-3xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-semibold mb-3 text-gray-800">Personalized Alerts</h3>
+                            <p class="text-gray-600 leading-relaxed">
+                                Receive intelligent reminders for medication, exercise, and check-ups based on your prediction results and health progress.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Advanced Tracking & Analytics Section -->
+            <section id="advanced-tracking-section" class="py-20 bg-gradient-to-b from-white to-blue-50" aria-labelledby="advanced-tracking-heading">
+                <div class="container mx-auto px-6">
+                    <h2 id="advanced-tracking-heading" class="text-4xl font-bold text-center mb-14 text-gray-800 tracking-wide">
+                        Advanced Tracking & Analytics
+                    </h2>
+
+                    <div class="grid lg:grid-cols-2 gap-12 items-center">
+                        <!-- Dashboard Preview -->
+                        <div class="bg-white rounded-2xl shadow-2xl p-8 border border-blue-100">
+                            <h3 class="text-2xl font-bold mb-6 text-gray-800">Comprehensive Health Dashboard</h3>
+                            <div class="space-y-6">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="dashboard-card">
+                                        <div class="stat-number text-blue-600" id="preview-risk-score">--</div>
+                                        <div class="stat-label">Risk Score</div>
+                                    </div>
+                                    <div class="dashboard-card">
+                                        <div class="stat-number text-green-600" id="preview-symptoms-tracked">0</div>
+                                        <div class="stat-label">Symptoms Tracked</div>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 rounded-lg p-4">
+                                    <canvas id="preview-chart" height="200"></canvas>
+                                </div>
+                                <p class="text-gray-600">
+                                    Track your health metrics over time with our advanced analytics dashboard. Monitor trends, identify patterns, and get personalized insights.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Symptom Tracker Preview -->
+                        <div class="bg-white rounded-2xl shadow-2xl p-8 border border-green-100">
+                            <h3 class="text-2xl font-bold mb-6 text-gray-800">Advanced Symptom Tracker</h3>
+                            <div class="space-y-6">
+                                <div class="calendar">
+                                    <div class="calendar-header">
+                                        <h4 class="text-lg font-semibold">October 2024</h4>
+                                    </div>
+                                    <div class="calendar-grid">
+                                        <!-- Calendar days will be populated by JavaScript -->
+                                        <div class="calendar-day">S</div>
+                                        <div class="calendar-day">M</div>
+                                        <div class="calendar-day">T</div>
+                                        <div class="calendar-day">W</div>
+                                        <div class="calendar-day">T</div>
+                                        <div class="calendar-day">F</div>
+                                        <div class="calendar-day">S</div>
+                                        <!-- More days will be added by JavaScript -->
+                                    </div>
+                                </div>
+                                <p class="text-gray-600">
+                                    Track your symptoms with our intuitive calendar interface. Log symptoms, menstrual cycles, and mood patterns to identify trends and triggers.
+                                </p>
+                                <div class="flex space-x-4">
+                                    <button onclick="showSection('dashboard')" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-300 flex-1">
+                                        View Dashboard
+                                    </button>
+                                    <button onclick="showSection('symptom-tracker')" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition duration-300 flex-1">
+                                        Track Symptoms
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <!-- Dashboard Section -->
+        <section id="dashboard-section" class="section-content hidden" aria-labelledby="dashboard-heading">
+            <div class="container mx-auto px-4 py-12">
+                <h2 id="dashboard-heading" class="mt-20 text-3xl font-bold text-center mb-12 text-gray-800">Your Health Dashboard</h2>
+                
+                <!-- Stats Overview -->
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="dashboard-card">
+                        <div class="stat-number text-blue-600" id="dashboard-risk-score">--</div>
+                        <div class="stat-label">Risk Score</div>
+                        <div class="text-sm trend-up mt-2">
+                            <i class="fas fa-arrow-up mr-1"></i> Updated today
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="stat-number text-green-600" id="dashboard-symptoms-tracked">0</div>
+                        <div class="stat-label">Symptoms Tracked</div>
+                        <div class="text-sm trend-up mt-2">
+                            <i class="fas fa-arrow-up mr-1"></i> This month
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="stat-number text-purple-600" id="dashboard-predictions">0</div>
+                        <div class="stat-label">Predictions Made</div>
+                        <div class="text-sm trend-up mt-2">
+                            <i class="fas fa-arrow-up mr-1"></i> Total
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="stat-number text-yellow-600" id="dashboard-cycle-length">--</div>
+                        <div class="stat-label">Avg Cycle Length</div>
+                        <div class="text-sm trend-down mt-2">
+                            <i class="fas fa-arrow-down mr-1"></i> Last 3 months
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts and Detailed Analytics -->
+                <div class="grid lg:grid-cols-2 gap-8 mb-8">
+                    <div class="dashboard-card">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Risk Trend</h3>
+                        <div class="h-64">
+                            <canvas id="risk-trend-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Symptom Distribution</h3>
+                        <div class="h-64">
+                            <canvas id="symptom-distribution-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="dashboard-card">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Recent Predictions</h3>
+                        <div id="dashboard-recent-predictions" class="space-y-4">
+                            <p class="text-gray-500 text-center py-4">No predictions yet. Complete your first assessment!</p>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Health Insights</h3>
+                        <div id="health-insights" class="space-y-3">
+                            <div class="p-3 bg-blue-50 rounded-lg">
+                                <div class="font-semibold text-blue-800">Lifestyle Impact</div>
+                                <div class="text-sm text-blue-600">Regular exercise can improve insulin sensitivity by up to 40%</div>
+                            </div>
+                            <div class="p-3 bg-green-50 rounded-lg">
+                                <div class="font-semibold text-green-800">Nutrition Tip</div>
+                                <div class="text-sm text-green-600">Balanced diet with low glycemic index foods helps manage symptoms</div>
+                            </div>
+                            <div class="p-3 bg-purple-50 rounded-lg">
+                                <div class="font-semibold text-purple-800">Sleep Quality</div>
+                                <div class="text-sm text-purple-600">7-9 hours of quality sleep supports hormonal balance</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Symptom Tracker Section -->
+        <section id="symptom-tracker-section" class="section-content hidden" aria-labelledby="symptom-tracker-heading">
+            <div class="container mx-auto px-4 py-12">
+                <h2 id="symptom-tracker-heading" class="mt-20 text-3xl font-bold text-center mb-8 text-gray-800">Advanced Symptom Tracker</h2>
+                
+                <div class="max-w-6xl mx-auto">
+                    <div class="grid lg:grid-cols-2 gap-8">
+                        <!-- Calendar Section -->
+                        <div class="bg-white rounded-lg shadow-lg p-6">
+                            <h3 class="text-xl font-semibold mb-4 text-gray-800">Symptom Calendar</h3>
+                            <div class="calendar mb-6">
+                                <div class="calendar-header flex justify-between items-center">
+                                    <button id="prev-month" class="text-white hover:text-gray-200">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </button>
+                                    <h4 id="current-month" class="text-lg font-semibold">October 2024</h4>
+                                    <button id="next-month" class="text-white hover:text-gray-200">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </button>
+                                </div>
+                                <div id="calendar-grid" class="calendar-grid">
+                                    <!-- Calendar will be populated by JavaScript -->
+                                </div>
+                            </div>
+                            <div class="legend flex flex-wrap gap-4 text-sm">
+                                <div class="flex items-center">
+                                    <div class="w-4 h-4 bg-fecaca mr-2 rounded"></div>
+                                    <span>Period</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-4 h-4 bg-fef3c7 mr-2 rounded"></div>
+                                    <span>Symptoms</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-4 h-4 bg-3b82f6 mr-2 rounded"></div>
+                                    <span>Selected</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Symptom Entry Section -->
+                        <div class="bg-white rounded-lg shadow-lg p-6">
+                            <h3 class="text-xl font-semibold mb-4 text-gray-800">Track Symptoms for <span id="selected-date">Today</span></h3>
+                            
+                            <form id="symptom-tracker-form">
+                                <div class="symptom-category">
+                                    <h4 class="font-semibold mb-3 text-blue-700">Menstrual Symptoms</h4>
+                                    <div class="symptom-item">
+                                        <span>Irregular cycles</span>
+                                        <div class="flex space-x-2">
+                                            <span class="severity-option" data-symptom="irregular_cycles" data-severity="0">None</span>
+                                            <span class="severity-option" data-symptom="irregular_cycles" data-severity="1">Mild</span>
+                                            <span class="severity-option" data-symptom="irregular_cycles" data-severity="2">Moderate</span>
+                                            <span class="severity-option" data-symptom="irregular_cycles" data-severity="3">Severe</span>
+                                        </div>
+                                    </div>
+                                    <div class="symptom-item">
+                                        <span>Heavy bleeding</span>
+                                        <div class="flex space-x-2">
+                                            <span class="severity-option" data-symptom="heavy_bleeding" data-severity="0">None</span>
+                                            <span class="severity-option" data-symptom="heavy_bleeding" data-severity="1">Mild</span>
+                                            <span class="severity-option" data-symptom="heavy_bleeding" data-severity="2">Moderate</span>
+                                            <span class="severity-option" data-symptom="heavy_bleeding" data-severity="3">Severe</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="symptom-category">
+                                    <h4 class="font-semibold mb-3 text-green-700">Physical Symptoms</h4>
+                                    <div class="symptom-item">
+                                        <span>Weight gain</span>
+                                        <div class="flex space-x-2">
+                                            <span class="severity-option" data-symptom="weight_gain" data-severity="0">None</span>
+                                            <span class="severity-option" data-symptom="weight_gain" data-severity="1">Mild</span>
+                                            <span class="severity-option" data-symptom="weight_gain" data-severity="2">Moderate</span>
+                                            <span class="severity-option" data-symptom="weight_gain" data-severity="3">Severe</span>
+                                        </div>
+                                    </div>
+                                    <div class="symptom-item">
+                                        <span>Acne</span>
+                                        <div class="flex space-x-2">
+                                            <span class="severity-option" data-symptom="acne" data-severity="0">None</span>
+                                            <span class="severity-option" data-symptom="acne" data-severity="1">Mild</span>
+                                            <span class="severity-option" data-symptom="acne" data-severity="2">Moderate</span>
+                                            <span class="severity-option" data-symptom="acne" data-severity="3">Severe</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="symptom-category">
+                                    <h4 class="font-semibold mb-3 text-purple-700">Emotional Symptoms</h4>
+                                    <div class="symptom-item">
+                                        <span>Mood swings</span>
+                                        <div class="flex space-x-2">
+                                            <span class="severity-option" data-symptom="mood_swings" data-severity="0">None</span>
+                                            <span class="severity-option" data-symptom="mood_swings" data-severity="1">Mild</span>
+                                            <span class="severity-option" data-symptom="mood_swings" data-severity="2">Moderate</span>
+                                            <span class="severity-option" data-symptom="mood_swings" data-severity="3">Severe</span>
+                                        </div>
+                                    </div>
+                                    <div class="symptom-item">
+                                        <span>Anxiety</span>
+                                        <div class="flex space-x-2">
+                                            <span class="severity-option" data-symptom="anxiety" data-severity="0">None</span>
+                                            <span class="severity-option" data-symptom="anxiety" data-severity="1">Mild</span>
+                                            <span class="severity-option" data-symptom="anxiety" data-severity="2">Moderate</span>
+                                            <span class="severity-option" data-symptom="anxiety" data-severity="3">Severe</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-6">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Additional Notes</label>
+                                    <textarea id="symptom-notes" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Any additional notes about your symptoms..."></textarea>
+                                </div>
+
+                                <div class="mt-6">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Period Tracking</label>
+                                    <div class="flex space-x-4">
+                                        <label class="flex items-center">
+                                            <input type="checkbox" id="period-checkbox" class="rounded text-pink-600 focus:ring-pink-500">
+                                            <span class="ml-2 text-gray-700">Mark as period day</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" id="ovulation-checkbox" class="rounded text-purple-600 focus:ring-purple-500">
+                                            <span class="ml-2 text-gray-700">Mark as ovulation</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300 mt-6 focus:outline-none focus:ring-2 focus:ring-blue-300">
+                                    Save Symptom Entry
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Symptom History -->
+                    <div class="mt-8 bg-white rounded-lg shadow-lg p-6">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Symptom History</h3>
+                        <div id="symptom-history" class="space-y-4">
+                            <!-- Symptom history will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Assessment Section -->
+        <section id="assessment-section" class="section-content hidden bg-gradient-to-br from-blue-50 via-white to-blue-100 py-16" aria-labelledby="assessment-heading">
+            <div class="container mx-auto px-4">
+                <h2 id="assessment-heading" class="mt-20 text-4xl font-extrabold text-center mb-14 text-blue-800 animate-fadeIn">
+                    🧠 Self Assessment
+                </h2>
+
+                <div class="max-w-4xl mx-auto bg-white/90 backdrop-blur-lg rounded-3xl shadow-2xl p-8 border border-blue-100 animate-fadeInUp">
+                    <!-- Progress Bar -->
+                    <div id="assessment-progress" class="mb-10">
+                        <div class="flex justify-between text-lg font-semibold text-gray-700 mb-3">
+                            <span>Progress</span>
+                            <span id="progress-text">0%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden shadow-inner">
+                            <div id="progress-bar" class="bg-gradient-to-r from-blue-600 to-green-400 h-3 rounded-full transition-all duration-500 ease-in-out" style="width: 0%;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Question Container -->
+                    <form id="assessment-form">
+                        <div id="question-container" class="text-xl text-gray-800 min-h-[200px]">
+                            <!-- Questions dynamically loaded here -->
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="flex justify-between mt-10">
+                            <button type="button" id="prev-btn" onclick="previousQuestion()" class="bg-gray-500 text-white px-6 py-3 rounded-xl hover:bg-gray-600 hover:scale-105 transition-all duration-300 text-lg font-semibold shadow-md disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-gray-300" disabled>
+                                ← Previous
+                            </button>
+
+                            <button type="button" id="next-btn" onclick="nextQuestion()" class="bg-blue-600 text-white px-6 py-3 rounded-xl hover:bg-blue-700 hover:scale-105 transition-all duration-300 text-lg font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-blue-300">
+                                Next →
+                            </button>
+
+                            <button type="submit" id="submit-btn" class="bg-green-600 text-white px-6 py-3 rounded-xl hover:bg-green-700 hover:scale-105 transition-all duration-300 text-lg font-semibold shadow-md hidden focus:outline-none focus:ring-2 focus:ring-green-300">
+                                ✅ Complete Assessment
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Prediction Section -->
+        <section id="prediction-section" class="section-content hidden" aria-labelledby="prediction-heading">
+            <div class="container mx-auto px-4 py-12">
+                <h2 id="prediction-heading" class="mt-20 text-3xl font-bold text-center mb-8 text-gray-800">PCOS Prediction Analysis</h2>
+                
+                <div class="prediction-container">
+                    <!-- Input Form -->
+                    <div class="prediction-form-container">
+                        <div class="bg-white rounded-lg shadow-lg p-8">
+                            <h3 class="text-2xl font-semibold mb-6 text-gray-800">Medical Parameters</h3>
+                            <form id="prediction-form" class="space-y-4">
+                                <!-- Basic Information -->
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Age *</label>
+                                        <input type="number" name="age" min="18" max="45" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Weight (kg) *</label>
+                                        <input type="number" name="weight" min="40" max="200" step="0.1" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Height (cm) *</label>
+                                        <input type="number" name="height" min="140" max="200" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">BMI</label>
+                                        <input type="number" name="bmi" step="0.1" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50" readonly>
+                                    </div>
+                                </div>
+
+                                <!-- Menstrual Cycle -->
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Cycle Length (days) *</label>
+                                    <input type="number" name="cycle_length" min="1" max="90" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                    <p class="text-xs text-gray-500 mt-1">Enter the number of days in your menstrual cycle (from 1 day)</p>
+                                </div>
+
+                                <!-- Body Measurements -->
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Waist-Hip Ratio *</label>
+                                    <input type="number" name="waist_hip_ratio" min="0.6" max="1.0" step="0.01" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                    <p class="text-xs text-gray-500 mt-1">Typically 0.7-0.85 for women</p>
+                                </div>
+
+                                <!-- Symptoms - Binary Inputs -->
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Skin Darkening</label>
+                                        <select name="skin_darkening" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                            <option value="">Select</option>
+                                            <option value="0">No</option>
+                                            <option value="1">Yes</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Hair Growth</label>
+                                        <select name="hair_growth" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                            <option value="">Select</option>
+                                            <option value="0">No</option>
+                                            <option value="1">Yes</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Weight Gain</label>
+                                        <select name="weight_gain" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                            <option value="">Select</option>
+                                            <option value="0">No</option>
+                                            <option value="1">Yes</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Pimples</label>
+                                        <select name="pimples" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                            <option value="">Select</option>
+                                            <option value="0">No</option>
+                                            <option value="1">Yes</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Lifestyle Factors -->
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Fast Food Consumption</label>
+                                        <select name="fast_food" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                            <option value="">Select</option>
+                                            <option value="0">Rarely</option>
+                                            <option value="1">Regularly</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Regular Exercise</label>
+                                        <select name="regular_exercise" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                            <option value="">Select</option>
+                                            <option value="0">No</option>
+                                            <option value="1">Yes</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Mood Swings</label>
+                                        <select name="mood_swings" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                            <option value="">Select</option>
+                                            <option value="0">No</option>
+                                            <option value="1">Yes</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Family History</label>
+                                        <select name="family_history" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                            <option value="">Select</option>
+                                            <option value="0">No</option>
+                                            <option value="1">Yes</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Additional Health Parameters -->
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Sleep Hours (per night)</label>
+                                        <input type="number" name="sleep_hours" min="4" max="12" step="0.5" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Stress Level (1-10)</label>
+                                        <input type="number" name="stress_level" min="1" max="10" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Blood Pressure (systolic)</label>
+                                    <input type="number" name="blood_pressure" min="80" max="180" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                    <p class="text-xs text-gray-500 mt-1">Systolic blood pressure (from 80 mmHg)</p>
+                                </div>
+
+                                <button type="submit" class="predict-btn focus:outline-none focus:ring-4 focus:ring-blue-300">
+                                    🔍 Predict PCOS
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Results - Now displayed below the form -->
+                    <div id="prediction-results" class="results-container hidden">
+                        <div class="bg-white rounded-lg shadow-lg p-8">
+                            <h3 class="text-2xl font-semibold mb-6 text-gray-800">Prediction Results</h3>
+                            <div id="results-content">
+                                <!-- Results will be displayed here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Support Section -->
+        <section id="support-section" class="section-content hidden" aria-labelledby="support-heading">
+            <div class="container mx-auto px-4 py-12">
+                <h2 id="support-heading" class="mt-20 text-3xl font-bold text-center mb-12 text-gray-800">Support & Resources</h2>
+                
+                <div class="max-w-6xl mx-auto">
+                    <!-- Emergency Contacts -->
+                    <div class="support-category mb-12">
+                        <h3 class="text-2xl font-bold mb-6 text-white">🆘 Emergency Support</h3>
+                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div class="resource-card emergency-contact">
+                                <h4 class="text-xl font-semibold mb-2 text-gray-800">National Suicide Prevention Lifeline</h4>
+                                <p class="text-gray-600 mb-3">24/7 free and confidential support for people in distress</p>
+                                <div class="text-2xl font-bold text-red-600">1-800-273-8255</div>
+                            </div>
+                            <div class="resource-card emergency-contact">
+                                <h4 class="text-xl font-semibold mb-2 text-gray-800">Crisis Text Line</h4>
+                                <p class="text-gray-600 mb-3">Free 24/7 crisis support via text message</p>
+                                <div class="text-2xl font-bold text-red-600">Text HOME to 741741</div>
+                            </div>
+                            <div class="resource-card emergency-contact">
+                                <h4 class="text-xl font-semibold mb-2 text-gray-800">National Alliance on Mental Illness</h4>
+                                <p class="text-gray-600 mb-3">Mental health support and resources</p>
+                                <div class="text-2xl font-bold text-red-600">1-800-950-6264</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Support Groups -->
+                    <div class="mb-12">
+                        <h3 class="text-2xl font-bold mb-6 text-gray-800">👥 Support Groups & Communities</h3>
+                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div class="resource-card support-group">
+                                <h4 class="text-xl font-semibold mb-2 text-gray-800">PCOS Support Group - Online Community</h4>
+                                <p class="text-gray-600 mb-3">Largest online PCOS support community with 50,000+ members</p>
+                                <div class="text-blue-600 font-semibold">24/7 Online Forum</div>
+                                <a href="https://www.pcosupport.org" class="text-blue-500 hover:underline mt-2 inline-block">Visit Community →</a>
+                            </div>
+                            <div class="resource-card support-group">
+                                <h4 class="text-xl font-semibold mb-2 text-gray-800">PCOS Challenge Association</h4>
+                                <p class="text-gray-600 mb-3">Comprehensive support including local meetups and online resources</p>
+                                <div class="text-blue-600 font-semibold">Monthly Virtual Meetings</div>
+                                <a href="https://pcoschallenge.org" class="text-blue-500 hover:underline mt-2 inline-block">Learn More →</a>
+                            </div>
+                            <div class="resource-card support-group">
+                                <h4 class="text-xl font-semibold mb-2 text-gray-800">MyPCOS Team - Mobile App</h4>
+                                <p class="text-gray-600 mb-3">Mobile app with symptom tracking and community support</p>
+                                <div class="text-blue-600 font-semibold">Daily Peer Support</div>
+                                <a href="https://www.mypcosteam.com" class="text-blue-500 hover:underline mt-2 inline-block">Get App →</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mental Health Resources -->
+                    <div class="mb-12">
+                        <h3 class="text-2xl font-bold mb-6 text-gray-800">🧠 Mental Health Resources</h3>
+                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div class="resource-card mental-health">
+                                <h4 class="text-xl font-semibold mb-2 text-gray-800">PCOS and Mental Health Guide</h4>
+                                <p class="text-gray-600 mb-3">Comprehensive guide to managing mental health with PCOS</p>
+                                <span class="inline-block bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">Educational Resource</span>
+                                <a href="/mental-health-guide" class="text-purple-500 hover:underline mt-2 inline-block">Access Guide →</a>
+                            </div>
+                            <div class="resource-card mental-health">
+                                <h4 class="text-xl font-semibold mb-2 text-gray-800">Mindfulness and PCOS</h4>
+                                <p class="text-gray-600 mb-3">Meditation and mindfulness techniques for PCOS symptom management</p>
+                                <span class="inline-block bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">Therapeutic Resource</span>
+                                <a href="/mindfulness" class="text-purple-500 hover:underline mt-2 inline-block">Explore Techniques →</a>
+                            </div>
+                            <div class="resource-card mental-health">
+                                <h4 class="text-xl font-semibold mb-2 text-gray-800">PCOS Nutritionist Directory</h4>
+                                <p class="text-gray-600 mb-3">Find certified nutritionists specializing in PCOS</p>
+                                <span class="inline-block bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">Professional Directory</span>
+                                <a href="/nutritionists" class="text-purple-500 hover:underline mt-2 inline-block">Find Specialists →</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Educational Materials -->
+                    <div class="mb-12">
+                        <h3 class="text-2xl font-bold mb-6 text-gray-800">📚 Educational Materials</h3>
+                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div class="resource-card">
+                                <h4 class="text-xl font-semibold mb-2 text-gray-800">Understanding PCOS: Comprehensive Guide</h4>
+                                <p class="text-gray-600 mb-3">Detailed information about PCOS symptoms, diagnosis, and treatment</p>
+                                <div class="flex justify-between items-center">
+                                    <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">eBook - 45 pages</span>
+                                    <a href="/guides/understanding-pcos" class="text-blue-500 hover:underline">Download →</a>
+                                </div>
+                            </div>
+                            <div class="resource-card">
+                                <h4 class="text-xl font-semibold mb-2 text-gray-800">PCOS Diet and Nutrition Handbook</h4>
+                                <p class="text-gray-600 mb-3">Evidence-based dietary recommendations for PCOS management</p>
+                                <div class="flex justify-between items-center">
+                                    <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">PDF Guide - 32 pages</span>
+                                    <a href="/guides/pcos-nutrition" class="text-green-500 hover:underline">Download →</a>
+                                </div>
+                            </div>
+                            <div class="resource-card">
+                                <h4 class="text-xl font-semibold mb-2 text-gray-800">Exercise and PCOS: Complete Guide</h4>
+                                <p class="text-gray-600 mb-3">Tailored exercise routines and fitness plans for PCOS</p>
+                                <div class="flex justify-between items-center">
+                                    <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">Video Series - 2.5 hours</span>
+                                    <a href="/guides/pcos-exercise" class="text-purple-500 hover:underline">Access →</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Professional Help -->
+                    <div class="bg-white rounded-lg shadow-lg p-8">
+                        <h3 class="text-2xl font-bold mb-6 text-gray-800">🏥 Professional Healthcare Guidance</h3>
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div>
+                                <h4 class="text-xl font-semibold mb-4 text-blue-700">Finding the Right Specialists</h4>
+                                <div class="space-y-4">
+                                    <div class="border-l-4 border-blue-500 pl-4">
+                                        <h5 class="font-semibold text-gray-800">Endocrinologists</h5>
+                                        <p class="text-gray-600">Hormone specialists for PCOS diagnosis and treatment</p>
+                                        <p class="text-sm text-blue-600 mt-1">Look for endocrinologists with reproductive endocrine experience</p>
+                                    </div>
+                                    <div class="border-l-4 border-green-500 pl-4">
+                                        <h5 class="font-semibold text-gray-800">Gynecologists</h5>
+                                        <p class="text-gray-600">Women's health specialists for menstrual and reproductive issues</p>
+                                        <p class="text-sm text-green-600 mt-1">Seek gynecologists experienced in PCOS management</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-semibold mb-4 text-purple-700">Additional Support Professionals</h4>
+                                <div class="space-y-4">
+                                    <div class="border-l-4 border-purple-500 pl-4">
+                                        <h5 class="font-semibold text-gray-800">Registered Dietitians</h5>
+                                        <p class="text-gray-600">Nutrition experts for PCOS-specific dietary plans</p>
+                                        <p class="text-sm text-purple-600 mt-1">Look for dietitians with PCOS or metabolic disorder experience</p>
+                                    </div>
+                                    <div class="border-l-4 border-pink-500 pl-4">
+                                        <h5 class="font-semibold text-gray-800">Mental Health Therapists</h5>
+                                        <p class="text-gray-600">Therapists specializing in chronic illness and women's health</p>
+                                        <p class="text-sm text-pink-600 mt-1">Find therapists experienced with PCOS-related anxiety and depression</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Login Section -->
+        <section id="login-section" class="section-content hidden" aria-labelledby="login-heading">
+            <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-blue-100 py-12 px-4 sm:px-6 lg:px-8">
+                <div class="max-w-md w-full space-y-8 animate-fadeIn">
+                    <div class="bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl p-8 border border-blue-100">
+                        <div class="text-center mb-6">
+                            <h2 id="login-heading" class="text-3xl font-extrabold text-blue-800">Welcome Back</h2>
+                            <p class="mt-2 text-gray-500">Sign in to access your PCOS Care dashboard</p>
+                        </div>
+
+                        <form class="mt-8 space-y-6" onsubmit="login(event)" id="login-form">
+                            <!-- Email -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                <input type="email" name="email" required placeholder="you@example.com"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 shadow-sm">
+                            </div>
+
+                            <!-- Password -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                                <input type="password" name="password" required placeholder="Enter your password"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 shadow-sm">
+                            </div>
+
+                            <!-- Sign In Button -->
+                            <button type="submit"
+                                class="w-full bg-gradient-to-r from-blue-700 to-green-500 text-white py-3 rounded-xl font-semibold hover:from-blue-600 hover:to-green-400 transform hover:scale-[1.02] transition-all duration-300 shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-blue-300">
+                                Sign In
+                            </button>
+
+                            <!-- Sign Up Link -->
+                            <p class="text-center text-gray-600 mt-4 text-sm">
+                                Don't have an account?
+                                <a href="#" onclick="showSection('register')" class="text-blue-600 font-semibold hover:underline">Create one</a>
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Register Section -->
+        <section id="register-section" class="section-content hidden" aria-labelledby="register-heading">
+            <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-blue-100 py-12 px-4 sm:px-6 lg:px-8">
+                <div class="max-w-md w-full space-y-8 animate-fadeIn">
+                    <div class="bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl p-8 border border-blue-100">
+                        <div class="text-center mb-6">
+                            <h2 id="register-heading" class="text-3xl font-extrabold text-blue-800">Create Your Account</h2>
+                            <p class="mt-2 text-gray-500">Join <b>PCOS Care</b> to access personalized prediction and health tracking.</p>
+                        </div>
+
+                        <form class="mt-8 space-y-6" onsubmit="register(event)" id="register-form">
+                            <!-- Name -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
+                                <input type="text" name="name" required placeholder="Enter your full name"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 shadow-sm">
+                            </div>
+
+                            <!-- Email -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+                                <input type="email" name="email" required placeholder="you@example.com"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 shadow-sm">
+                            </div>
+
+                            <!-- Password -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Password *</label>
+                                <input type="password" name="password" required placeholder="Create a strong password"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 shadow-sm">
+                            </div>
+
+                            <!-- Age & Gender -->
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Age</label>
+                                    <input type="number" name="age" placeholder="e.g. 25"
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 shadow-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+                                    <select name="gender"
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 shadow-sm">
+                                        <option value="">Select</option>
+                                        <option value="female">♀ Female</option>
+                                        <option value="male">♂ Male</option>
+                                        <option value="other">⚧ Other</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Phone -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                                <input type="tel" name="phone" placeholder="e.g. +91 9876543210"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 shadow-sm">
+                            </div>
+
+                            <!-- Medical History -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Medical History</label>
+                                <textarea name="medical_history" rows="3" placeholder="Any relevant medical history..."
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 shadow-sm"></textarea>
+                            </div>
+
+                            <!-- Submit -->
+                            <button type="submit"
+                                class="w-full bg-gradient-to-r from-blue-700 to-green-500 text-white py-3 rounded-xl font-semibold hover:from-blue-600 hover:to-green-400 transform hover:scale-[1.02] transition-all duration-300 shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-blue-300">
+                                Create Account
+                            </button>
+
+                            <!-- Footer text -->
+                            <p class="text-center text-gray-600 mt-4 text-sm">
+                                Already have an account?
+                                <a href="#" onclick="showSection('login')" class="text-blue-600 font-semibold hover:underline">Login</a>
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Profile Section -->
+        <section id="profile-section" class="section-content hidden bg-gradient-to-br from-blue-50 via-white to-blue-100 py-16" aria-labelledby="profile-heading">
+            <div class="container mx-auto px-4">
+                <h2 id="profile-heading" class="text-4xl font-extrabold text-center mb-10 text-blue-800 animate-fadeIn">
+                    👩‍⚕️ User Profile
+                </h2>
+
+                <!-- Profile Header -->
+                <div class="flex flex-col items-center mb-10">
+                    <div class="relative">
+                        <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png"
+                             alt="User Avatar"
+                             class="w-32 h-32 rounded-full border-4 border-blue-400 shadow-lg object-cover animate-popIn">
+                        <div class="absolute bottom-1 right-1 bg-green-500 w-5 h-5 rounded-full border-2 border-white animate-pulse"></div>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mt-4" id="profile-name">Welcome, User!</h3>
+                    <p class="text-gray-600">Your personalized PCOS health dashboard</p>
+                </div>
+
+                <!-- Main Info Cards -->
+                <div class="max-w-4xl mx-auto">
+                    <div class="bg-white/90 backdrop-blur-lg rounded-2xl shadow-2xl p-8 border border-blue-100 animate-fadeInUp">
+                        <div class="grid md:grid-cols-2 gap-8">
+                            
+                            <!-- Personal Information -->
+                            <div class="profile-card">
+                                <h3 class="text-xl font-bold mb-6 flex items-center gap-2 text-blue-700">
+                                    <i class="fas fa-user-circle text-blue-600 text-2xl"></i> Personal Information
+                                </h3>
+                                <div id="profile-info" class="space-y-4 text-gray-800">
+                                    <p><strong>Email:</strong> user@example.com</p>
+                                    <p><strong>Age:</strong> 27</p>
+                                    <p><strong>Phone:</strong> +91 98765 43210</p>
+                                </div>
+                            </div>
+
+                            <!-- Assessment History -->
+                            <div class="profile-card">
+                                <h3 class="text-xl font-bold mb-6 flex items-center gap-2 text-green-700">
+                                    <i class="fas fa-clipboard-list text-green-600 text-2xl"></i> Assessment History
+                                </h3>
+                                <div id="assessment-history" class="space-y-4 text-gray-800">
+                                    <p><strong>Recent Test:</strong> 25 Oct 2025</p>
+                                    <p><strong>Result:</strong> PCOS Positive (85% Confidence)</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Preferences Section -->
+                        <div class="mt-8 pt-8 border-t border-gray-200">
+                            <h3 class="text-xl font-bold mb-6 flex items-center gap-2 text-purple-700">
+                                <i class="fas fa-cog text-purple-600 text-2xl"></i> Preferences
+                            </h3>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="flex items-center space-x-3">
+                                        <input type="checkbox" id="symptom-tracking-toggle" class="rounded text-blue-600 focus:ring-blue-500">
+                                        <span class="text-gray-700">Enable Symptom Tracking</span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label class="flex items-center space-x-3">
+                                        <input type="checkbox" id="email-notifications" class="rounded text-blue-600 focus:ring-blue-500" checked>
+                                        <span class="text-gray-700">Email Notifications</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact-section" class="section-content hidden" aria-labelledby="contact-heading">
+            <div class="container mx-auto px-4 py-12">
+                <h2 id="contact-heading" class="mt-20 text-3xl font-bold text-center mb-12 text-gray-800">Contact Us</h2>
+                
+                <div class="max-w-4xl mx-auto">
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="bg-white rounded-lg shadow-lg p-8">
+                            <h3 class="text-2xl font-semibold mb-6 text-gray-800">Get in Touch</h3>
+                            
+                            <div id="contact-message-container" class="mb-4"></div>
+                            
+                            <form id="contact-form" class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                                    <input type="text" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                                           name="name" placeholder="Your full name">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                    <input type="email" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                                           name="email" placeholder="Your email address">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+                                    <input type="text" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                                           name="subject" placeholder="Subject of your message">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                                    <textarea rows="5" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                                              name="message" placeholder="Your message here"></textarea>
+                                </div>
+                                
+                                <button type="submit" 
+                                        class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-300">
+                                    Send Message
+                                </button>
+                            </form>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-lg p-8">
+                            <h3 class="text-2xl font-semibold mb-6 text-gray-800">Contact Information</h3>
+                            <div class="space-y-6">
+                                <div class="flex items-center space-x-4">
+                                    <div class="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-envelope text-blue-600"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-800">Email</h4>
+                                        <p class="text-gray-600">support@pcoscare.com</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <div class="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-phone text-green-600"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-800">Phone</h4>
+                                        <p class="text-gray-600">+1 (555) 123-4567</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <div class="bg-purple-100 w-12 h-12 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-map-marker-alt text-purple-600"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-800">Address</h4>
+                                        <p class="text-gray-600">Medical Technology Center<br>Healthcare Innovation Hub</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <div class="bg-yellow-100 w-12 h-12 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-clock text-yellow-600"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-800">Support Hours</h4>
+                                        <p class="text-gray-600">24/7 Available<br>Emergency Support</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about-section" class="section-content hidden" aria-labelledby="about-heading">
+            <div class="container mx-auto px-4 py-12">
+                <h2 id="about-heading" class="mt-20 text-3xl font-bold text-center mb-12 text-gray-800">About PCOS Care</h2>
+                
+                <div class="max-w-4xl mx-auto">
+                    <div class="bg-white rounded-lg shadow-lg p-8">
+                        <div class="text-center mb-8">
+                            <h3 class="text-2xl font-semibold mb-4 text-gray-800">Advanced Medical Technology</h3>
+                            <p class="text-gray-600">Our platform combines cutting-edge machine learning with medical expertise to provide accurate PCOS predictions and comprehensive care guidance.</p>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-8 mt-12">
+                            <div>
+                                <h4 class="text-xl font-semibold mb-4 text-gray-800">Our Mission</h4>
+                                <p class="text-gray-600 mb-6">To empower women with early detection, accurate diagnosis, and comprehensive care for PCOS through advanced technology and evidence-based medical practices.</p>
+                                
+                                <h4 class="text-xl font-semibold mb-4 text-gray-800">Technology Stack</h4>
+                                <ul class="space-y-2 text-gray-600">
+                                    <li>• SVM Algorithm with 96.8% accuracy</li>
+                                    <li>• Machine Learning model trained on 3000+ synthetic records</li>
+                                    <li>• 16 clinical parameters for comprehensive analysis</li>
+                                    <li>• Real-time prediction and report generation</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-semibold mb-4 text-gray-800">Key Features</h4>
+                                <ul class="space-y-3 text-gray-600">
+                                    <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2 mt-0.5"></i> ML-powered PCOS prediction</li>
+                                    <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2 mt-0.5"></i> Certified medical reports</li>
+                                    <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2 mt-0.5"></i> Self-assessment tools</li>
+                                    <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2 mt-0.5"></i> Educational resources</li>
+                                    <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2 mt-0.5"></i> User-friendly interface</li>
+                                    <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2 mt-0.5"></i> Secure data management</li>
+                                </ul>
+
+                                <div class="mt-6">
+                                    <h4 class="text-xl font-semibold mb-4 text-gray-800">Model Performance</h4>
+                                    <div class="space-y-2">
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-600">Accuracy:</span>
+                                            <span class="font-semibold text-green-600">96.8%</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-600">Precision:</span>
+                                            <span class="font-semibold text-blue-600">95.2%</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-600">Recall:</span>
+                                            <span class="font-semibold text-purple-600">97.1%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Team Section -->
+                    <div class="mt-16">
+                        <h3 class="text-3xl font-bold text-center mb-12 text-gray-800">Meet Our Team</h3>
+                        <div class="team-grid">
+                            <!-- Team Member 1 -->
+                            <div class="team-member team-card bg-white rounded-lg shadow-lg overflow-hidden" role="article">
+                                <div class="h-64 bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
+                                    <img src="/static/images/image.png" alt="Dr. H Manoj T Gadiyar" class="team-image" loading="lazy">
+                                </div>
+                                <div class="p-6 text-center">
+                                    <h4 class="text-xl font-semibold mb-1 text-gray-800">Dr. H Manoj T Gadiyar</h4>
+                                    <p class="text-blue-600 font-medium mb-3">CEO & Project Guide</p>
+                                    <p class="text-gray-600 text-sm">Leading the vision and strategy for PCOS Care.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Team Member 2 -->
+                            <div class="team-member team-card bg-white rounded-lg shadow-lg overflow-hidden" role="article">
+                                <div class="h-64 bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center">
+                                    <img src="/static/images/shree.jpeg" alt="Mr. Shreesha" class="team-image" loading="lazy">
+                                </div>
+                                <div class="p-6 text-center">
+                                    <h4 class="text-xl font-semibold mb-1 text-gray-800">Mr. Shreesha</h4>
+                                    <p class="text-green-600 font-medium mb-3">Lead Developer</p>
+                                    <p class="text-gray-600 text-sm">Full-stack development and system architecture.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Team Member 3 -->
+                            <div class="team-member team-card bg-white rounded-lg shadow-lg overflow-hidden" role="article">
+                                <div class="h-64 bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center">
+                                    <img src="/static/images/sujnan.jpg" alt="Mr. Sujnan" class="team-image" loading="lazy">
+                                </div>
+                                <div class="p-6 text-center">
+                                    <h4 class="text-xl font-semibold mb-1 text-gray-800">Mr. Sujnan</h4>
+                                    <p class="text-purple-600 font-medium mb-3">Data Scientist</p>
+                                    <p class="text-gray-600 text-sm">Machine learning models and data analysis.</p>
+                                </div>
+                            </div>
+
+                            <!-- Team Member 4 -->
+                            <div class="team-member team-card bg-white rounded-lg shadow-lg overflow-hidden" role="article">
+                                <div class="h-64 bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center">
+                                    <img src="/static/images/sinch.jpeg" alt="Mr. Sujnan" class="team-image" loading="lazy">
+                                    <div class="text-white text-6xl">
+                                        <i class="fas fa-user-md"></i>
+                                    </div>
+                                </div>
+                                <div class="p-6 text-center">
+                                    <h4 class="text-xl font-semibold mb-1 text-gray-800">Medical Advisor</h4>
+                                    <p class="text-red-600 font-medium mb-3">Healthcare Specialist</p>
+                                    <p class="text-gray-600 text-sm">Providing medical expertise and validation.</p>
+                                </div>
+                            </div>
+
+                            <!-- Team Member 5 -->
+                            <div class="team-member team-card bg-white rounded-lg shadow-lg overflow-hidden" role="article">
+                                <div class="h-64 bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center">
+                                    <img src="/static/images/sumed.jpeg" alt="Mr. Sujnan" class="team-image" loading="lazy">
+                                    <div class="text-white text-6xl">
+                                        <i class="fas fa-laptop-code"></i>
+                                    </div>
+                                </div>
+                                <div class="p-6 text-center">
+                                    <h4 class="text-xl font-semibold mb-1 text-gray-800">UI/UX Designer</h4>
+                                    <p class="text-yellow-600 font-medium mb-3">Design Specialist</p>
+                                    <p class="text-gray-600 text-sm">Creating intuitive user experiences and interfaces.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-12" role="contentinfo">
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
+            <!-- Logo & About -->
+            <div>
+                <div class="flex items-center space-x-2 mb-4">
+                    <i class="fas fa-heartbeat text-white text-2xl" aria-hidden="true"></i>
+                    <span class="text-white font-bold text-xl">PCOS Care</span>
+                </div>
+                <p class="text-gray-400">
+                    Empowering women with advanced PCOS diagnosis and management tools.
+                </p>
+            </div>
+
+            <!-- Quick Links -->
+            <div>
+                <h3 class="text-white font-semibold mb-4">Quick Links</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" onclick="showSection('home')" class="hover:text-white">Home</a></li>
+                    <li><a href="#" onclick="showSection('assessment')" class="hover:text-white">Assessment</a></li>
+                    <li><a href="#" onclick="showSection('prediction')" class="hover:text-white">Diagnosis</a></li>
+                    <li><a href="/guide" class="hover:text-white">PCOS Guide</a></li>
+                </ul>
+            </div>
+
+            <!-- Resources -->
+            <div>
+                <h3 class="text-white font-semibold mb-4">Resources</h3>
+                <ul class="space-y-2">
+                    <li><a href="/guide" class="hover:text-white">PCOS Guide</a></li>
+                    <li><a href="/treatment" class="hover:text-white">Treatment</a></li>
+                    <li><a href="/lifestyle" class="hover:text-white">Lifestyle Tips</a></li>
+                    <li><a href="/support" class="hover:text-white">Support Groups</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact -->
+            <div>
+                <h3 class="text-white font-semibold mb-4">Contact Us</h3>
+                <ul class="space-y-2">
+                    <li><i class="fas fa-envelope mr-2" aria-hidden="true"></i> support@pcoscare.com</li>
+                    <li><i class="fas fa-phone mr-2" aria-hidden="true"></i> +1 (555) 123-4567</li>
+                    <li><i class="fas fa-map-marker-alt mr-2" aria-hidden="true"></i> Available Worldwide</li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Main Application Script -->
+    <script>
+        // Global variables
+        let currentUser = null;
+        let assessmentQuestions = [];
+        let currentQuestion = 0;
+        let assessmentAnswers = {};
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+        let selectedDate = new Date();
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('PCOS Care Application Initialized');
+            checkAuthentication();
+            loadAssessmentQuestions();
+            setupEventListeners();
+            showSection('home');
+            initializeCalendar();
+            initializeCharts();
+        });
+
+        // Enhanced navigation
+        function showSection(sectionName) {
+            console.log('Showing section:', sectionName);
+            
+            // Hide all sections
+            document.querySelectorAll('.section-content').forEach(section => {
+                section.classList.add('hidden');
+            });
+
+            // Show requested section
+            const targetSection = document.getElementById(sectionName + '-section');
+            if (targetSection) {
+                targetSection.classList.remove('hidden');
+                
+                // Scroll to top
+                window.scrollTo(0, 0);
+                
+                // Load section-specific content
+                loadSectionContent(sectionName);
+            } else {
+                console.error('Section not found:', sectionName);
+            }
+        }
+
+        function loadSectionContent(sectionName) {
+            switch(sectionName) {
+                case 'dashboard':
+                    if (currentUser) loadDashboardData();
+                    break;
+                case 'profile':
+                    if (currentUser) loadUserProfile();
+                    break;
+                case 'home':
+                    if (currentUser) loadDashboardData();
+                    break;
+                case 'contact':
+                    resetContactForm();
+                    break;
+                case 'symptom-tracker':
+                    initializeCalendar();
+                    loadSymptomHistory();
+                    break;
+                case 'support':
+                    loadSupportResources();
+                    break;
+            }
+        }
+
+        // Enhanced authentication functions
+        async function checkAuthentication() {
+            try {
+                const user = localStorage.getItem('currentUser');
+                if (user) {
+                    currentUser = JSON.parse(user);
+                    updateUIForAuthenticatedUser();
+                } else {
+                    updateUIForUnauthenticatedUser();
+                }
+            } catch (error) {
+                console.error('Authentication check failed:', error);
+                localStorage.removeItem('currentUser');
+                currentUser = null;
+                updateUIForUnauthenticatedUser();
+            }
+        }
+
+        function updateUIForAuthenticatedUser() {
+            // Update desktop UI
+            const userMenu = document.getElementById('user-menu');
+            const authMenu = document.getElementById('auth-menu');
+            
+            if (userMenu) userMenu.classList.remove('hidden');
+            if (authMenu) authMenu.classList.add('hidden');
+            
+            if (currentUser && currentUser.name) {
+                const userName = document.getElementById('user-name');
+                if (userName) userName.textContent = currentUser.name;
+            }
+        }
+
+        function updateUIForUnauthenticatedUser() {
+            // Update desktop UI
+            const userMenu = document.getElementById('user-menu');
+            const authMenu = document.getElementById('auth-menu');
+            
+            if (userMenu) userMenu.classList.add('hidden');
+            if (authMenu) authMenu.classList.remove('hidden');
+        }
+
+        // Enhanced Login function
+        async function login(event) {
+            if (event) event.preventDefault();
+            
+            const form = document.getElementById('login-form');
+            if (!form) return;
+            
+            const formData = new FormData(form);
+            const email = formData.get('email');
+            const password = formData.get('password');
+
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    showAlert(`Welcome back, ${data.user.name}! Login successful! 🎉`, 'success', 4000);
+                    
+                    currentUser = data.user;
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    
+                    // Update UI
+                    checkAuthentication();
+                    
+                    // Show dashboard section after a brief delay
+                    setTimeout(() => {
+                        showSection('dashboard');
+                    }, 1500);
+                } else {
+                    showAlert(data.message, 'error');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                showAlert('Login failed. Please check your connection and try again.', 'error');
+            }
+        }
+
+        // Register function
+        async function register(event) {
+            if (event) event.preventDefault();
+            
+            const form = document.getElementById('register-form');
+            if (!form) return;
+            
+            const formData = new FormData(form);
+            const userData = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                password: formData.get('password'),
+                age: formData.get('age'),
+                phone: formData.get('phone'),
+                gender: formData.get('gender'),
+                medical_history: formData.get('medical_history')
+            };
+
+            try {
+                const response = await fetch('/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(userData)
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    showAlert('Registration successful! Welcome to PCOS Care!', 'success');
+                    currentUser = data.user;
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    checkAuthentication();
+                    showSection('dashboard');
+                } else {
+                    showAlert(data.message, 'error');
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                showAlert('Registration failed. Please try again.', 'error');
+            }
+        }
+
+        // Logout function
+        async function logout() {
+            try {
+                const response = await fetch('/logout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        }
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    currentUser = null;
+                    localStorage.removeItem('currentUser');
+                    checkAuthentication();
+                    showSection('home');
+                    showAlert('Logged out successfully!', 'success');
+                }
+            } catch (error) {
+                console.error('Logout error:', error);
+                showAlert('Logout failed. Please try again.', 'error');
+            }
+        }
+
+        // Enhanced alert system
+        function showAlert(message, type = 'info', duration = 5000) {
+            // Create alert container if it doesn't exist
+            let alertContainer = document.getElementById('alert-container');
+            if (!alertContainer) {
+                alertContainer = document.createElement('div');
+                alertContainer.id = 'alert-container';
+                alertContainer.className = 'fixed top-20 right-4 z-50 space-y-2';
+                document.body.appendChild(alertContainer);
+            }
+            
+            const alertId = 'alert-' + Date.now();
+            
+            const icons = {
+                success: 'fa-check-circle',
+                error: 'fa-exclamation-circle',
+                warning: 'fa-exclamation-triangle',
+                info: 'fa-info-circle'
+            };
+
+            const alertDiv = document.createElement('div');
+            alertDiv.id = alertId;
+            alertDiv.className = `p-4 rounded-lg shadow-lg flex items-center max-w-md ${
+                type === 'success' ? 'bg-green-500 text-white' :
+                type === 'error' ? 'bg-red-500 text-white' :
+                type === 'warning' ? 'bg-yellow-500 text-white' :
+                'bg-blue-500 text-white'
+            } fade-in`;
+            
+            alertDiv.innerHTML = `
+                <i class="fas ${icons[type] || 'fa-info-circle'} mr-3 text-lg"></i>
+                <span class="flex-1">${message}</span>
+                <button onclick="document.getElementById('${alertId}').remove()" class="ml-4 text-white hover:text-gray-200">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            
+            alertContainer.appendChild(alertDiv);
+            
+            // Auto-dismiss
+            if (duration > 0) {
+                setTimeout(() => {
+                    const alert = document.getElementById(alertId);
+                    if (alert) {
+                        alert.style.opacity = '0';
+                        alert.style.transition = 'opacity 0.5s ease';
+                        setTimeout(() => alert.remove(), 500);
+                    }
+                }, duration);
+            }
+            
+            return alertId;
+        }
+
+        // Initialize Calendar
+        function initializeCalendar() {
+            updateCalendar();
+            
+            // Add event listeners for calendar navigation
+            document.getElementById('prev-month')?.addEventListener('click', () => {
+                currentMonth--;
+                if (currentMonth < 0) {
+                    currentMonth = 11;
+                    currentYear--;
+                }
+                updateCalendar();
+            });
+            
+            document.getElementById('next-month')?.addEventListener('click', () => {
+                currentMonth++;
+                if (currentMonth > 11) {
+                    currentMonth = 0;
+                    currentYear++;
+                }
+                updateCalendar();
+            });
+        }
+
+        function updateCalendar() {
+            const calendarGrid = document.getElementById('calendar-grid');
+            if (!calendarGrid) return;
+            
+            const monthNames = ["January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"];
+            
+            // Update month header
+            const currentMonthElement = document.getElementById('current-month');
+            if (currentMonthElement) {
+                currentMonthElement.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+            }
+            
+            // Clear calendar
+            calendarGrid.innerHTML = '';
+            
+            // Add day headers
+            const dayHeaders = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+            dayHeaders.forEach(day => {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day font-semibold bg-gray-100';
+                dayElement.textContent = day;
+                calendarGrid.appendChild(dayElement);
+            });
+            
+            // Get first day of month
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            
+            // Get number of days in month
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            
+            // Add empty cells for days before first day of month
+            for (let i = 0; i < firstDay; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-day bg-gray-50';
+                calendarGrid.appendChild(emptyDay);
+            }
+            
+            // Add days of month
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                dayElement.textContent = day;
+                dayElement.dataset.day = day;
+                dayElement.dataset.month = currentMonth;
+                dayElement.dataset.year = currentYear;
+                
+                // Check if this day has symptoms or period
+                const dateKey = `${currentYear}-${currentMonth + 1}-${day}`;
+                const savedData = getSavedSymptomData(dateKey);
+                
+                if (savedData) {
+                    if (savedData.period) {
+                        dayElement.classList.add('period');
+                    } else if (Object.keys(savedData.symptoms || {}).length > 0) {
+                        dayElement.classList.add('has-symptoms');
+                    }
+                }
+                
+                // Check if this is today
+                const today = new Date();
+                if (day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear()) {
+                    dayElement.classList.add('selected');
+                    updateSelectedDate(day, currentMonth, currentYear);
+                }
+                
+                dayElement.addEventListener('click', () => {
+                    // Remove selected class from all days
+                    document.querySelectorAll('.calendar-day.selected').forEach(d => {
+                        d.classList.remove('selected');
+                    });
+                    
+                    // Add selected class to clicked day
+                    dayElement.classList.add('selected');
+                    
+                    // Update selected date
+                    updateSelectedDate(day, currentMonth, currentYear);
+                });
+                
+                calendarGrid.appendChild(dayElement);
+            }
+        }
+
+        function updateSelectedDate(day, month, year) {
+            selectedDate = new Date(year, month, day);
+            const selectedDateElement = document.getElementById('selected-date');
+            if (selectedDateElement) {
+                selectedDateElement.textContent = selectedDate.toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+            }
+            
+            // Load saved data for this date
+            loadSavedDataForDate(selectedDate);
+        }
+
+        function getSavedSymptomData(dateKey) {
+            const savedData = localStorage.getItem(`symptomData_${dateKey}`);
+            return savedData ? JSON.parse(savedData) : null;
+        }
+
+        function loadSavedDataForDate(date) {
+            const dateKey = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+            const savedData = getSavedSymptomData(dateKey);
+            
+            if (savedData) {
+                // Load symptoms
+                Object.entries(savedData.symptoms || {}).forEach(([symptom, severity]) => {
+                    const option = document.querySelector(`.severity-option[data-symptom="${symptom}"][data-severity="${severity}"]`);
+                    if (option) {
+                        option.classList.add('selected');
+                    }
+                });
+                
+                // Load period and ovulation
+                const periodCheckbox = document.getElementById('period-checkbox');
+                const ovulationCheckbox = document.getElementById('ovulation-checkbox');
+                if (periodCheckbox) periodCheckbox.checked = savedData.period || false;
+                if (ovulationCheckbox) ovulationCheckbox.checked = savedData.ovulation || false;
+                
+                // Load notes
+                const notesTextarea = document.getElementById('symptom-notes');
+                if (notesTextarea) notesTextarea.value = savedData.notes || '';
+            } else {
+                // Clear form if no saved data
+                document.querySelectorAll('.severity-option.selected').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                document.getElementById('period-checkbox').checked = false;
+                document.getElementById('ovulation-checkbox').checked = false;
+                document.getElementById('symptom-notes').value = '';
+            }
+        }
+
+        function loadSymptomHistory() {
+            const historyContainer = document.getElementById('symptom-history');
+            if (!historyContainer) return;
+            
+            // Get all saved symptom data
+            const symptomEntries = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key.startsWith('symptomData_')) {
+                    const data = JSON.parse(localStorage.getItem(key));
+                    const date = key.replace('symptomData_', '');
+                    symptomEntries.push({ date, data });
+                }
+            }
+            
+            // Sort by date (newest first)
+            symptomEntries.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            // Display recent entries
+            if (symptomEntries.length === 0) {
+                historyContainer.innerHTML = '<p class="text-gray-500 text-center py-4">No symptom entries yet. Start tracking your symptoms!</p>';
+                return;
+            }
+            
+            let html = '';
+            symptomEntries.slice(0, 10).forEach(entry => {
+                const date = new Date(entry.date);
+                const symptomCount = Object.keys(entry.data.symptoms || {}).length;
+                
+                html += `
+                    <div class="border-l-4 border-blue-500 bg-blue-50 p-4 rounded">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="font-semibold text-blue-800">${date.toLocaleDateString()}</span>
+                            <span class="text-sm text-blue-600">${symptomCount} symptoms tracked</span>
+                        </div>
+                        ${entry.data.period ? '<div class="text-sm text-pink-600 mb-1">• Period day</div>' : ''}
+                        ${entry.data.ovulation ? '<div class="text-sm text-purple-600 mb-1">• Ovulation day</div>' : ''}
+                        ${entry.data.notes ? `<div class="text-sm text-gray-600 mt-2">${entry.data.notes}</div>` : ''}
+                    </div>
+                `;
+            });
+            
+            historyContainer.innerHTML = html;
+        }
+
+        // Load Support Resources
+        async function loadSupportResources() {
+            try {
+                const response = await fetch('/api/support/resources');
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Resources are already displayed in the HTML structure
+                    console.log('Support resources loaded successfully');
+                }
+            } catch (error) {
+                console.error('Failed to load support resources:', error);
+            }
+        }
+
+        // Initialize Charts
+        function initializeCharts() {
+            // Preview Chart
+            const previewCtx = document.getElementById('preview-chart');
+            if (previewCtx) {
+                new Chart(previewCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        datasets: [{
+                            label: 'Risk Score',
+                            data: [65, 59, 80, 81, 56, 72],
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Risk Trend Chart
+            const riskTrendCtx = document.getElementById('risk-trend-chart');
+            if (riskTrendCtx) {
+                new Chart(riskTrendCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        datasets: [{
+                            label: 'PCOS Risk',
+                            data: [45, 52, 68, 74, 65, 58],
+                            borderColor: '#ef4444',
+                            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Risk Trend Over Time'
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Symptom Distribution Chart
+            const symptomDistCtx = document.getElementById('symptom-distribution-chart');
+            if (symptomDistCtx) {
+                new Chart(symptomDistCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Menstrual', 'Physical', 'Emotional', 'Metabolic'],
+                        datasets: [{
+                            data: [35, 25, 20, 20],
+                            backgroundColor: [
+                                '#3b82f6',
+                                '#10b981',
+                                '#8b5cf6',
+                                '#f59e0b'
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Symptom Distribution'
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        // Load dashboard data
+        async function loadDashboardData() {
+            if (!currentUser) return;
+
+            try {
+                // Load user predictions
+                const response = await fetch('/user/predictions');
+                const data = await response.json();
+                
+                if (data.success) {
+                    const predictions = data.predictions;
+                    
+                    // Update dashboard stats
+                    const predictionsElement = document.getElementById('dashboard-predictions');
+                    if (predictionsElement) predictionsElement.textContent = predictions.length;
+                    
+                    if (predictions.length > 0) {
+                        const latestPrediction = predictions[0];
+                        const riskScore = (latestPrediction.probability.pcos * 100).toFixed(1);
+                        const riskScoreElement = document.getElementById('dashboard-risk-score');
+                        if (riskScoreElement) riskScoreElement.textContent = riskScore + '%';
+                        
+                        // Update preview risk score
+                        const previewRiskScore = document.getElementById('preview-risk-score');
+                        if (previewRiskScore) previewRiskScore.textContent = riskScore + '%';
+                        
+                        // Display recent predictions
+                        const container = document.getElementById('dashboard-recent-predictions');
+                        if (container) {
+                            let html = '<div class="space-y-4">';
+                            
+                            predictions.slice(0, 3).forEach(pred => {
+                                const date = new Date(pred.created_at).toLocaleDateString();
+                                const isPositive = pred.prediction_result === 'PCOS Positive';
+                                const riskPercentage = (pred.probability.pcos * 100).toFixed(1);
+                                
+                                html += `
+                                    <div class="border-l-4 ${isPositive ? 'border-red-500 bg-red-50' : 'border-green-500 bg-green-50'} p-3 rounded">
+                                        <div class="flex justify-between items-center">
+                                            <span class="font-semibold ${isPositive ? 'text-red-700' : 'text-green-700'}">
+                                                ${pred.prediction_result}
+                                            </span>
+                                            <span class="text-sm text-gray-600">${date}</span>
+                                        </div>
+                                        <div class="text-sm text-gray-600">Risk: ${riskPercentage}%</div>
+                                    </div>
+                                `;
+                            });
+                            
+                            html += '</div>';
+                            container.innerHTML = html;
+                        }
+                    }
+                }
+                
+                // Load symptom tracking data
+                const symptomResponse = await fetch('/user/symptoms');
+                const symptomData = await symptomResponse.json();
+                
+                if (symptomData.success) {
+                    const symptomsElement = document.getElementById('dashboard-symptoms-tracked');
+                    const previewSymptoms = document.getElementById('preview-symptoms-tracked');
+                    if (symptomsElement) symptomsElement.textContent = symptomData.symptoms.length;
+                    if (previewSymptoms) previewSymptoms.textContent = symptomData.symptoms.length;
+                }
+                
+            } catch (error) {
+                console.error('Dashboard data loading error:', error);
+            }
+        }
+
+        // Enhanced Assessment Questions
+        function loadAssessmentQuestions() {
+            assessmentQuestions = [
+                {
+                    id: 1,
+                    text: "How often do you experience irregular menstrual cycles?",
+                    type: "radio",
+                    options: [
+                        { value: 0, text: "Regular cycles (28-35 days)" },
+                        { value: 1, text: "Occasionally irregular (36-45 days)" },
+                        { value: 2, text: "Frequently irregular (46-60 days)" },
+                        { value: 3, text: "Very irregular (60+ days or unpredictable)" },
+                        { value: 4, text: "No periods for 3+ months" }
+                    ]
+                },
+                {
+                    id: 2,
+                    text: "Do you experience excessive hair growth on face, chest, or abdomen?",
+                    type: "radio",
+                    options: [
+                        { value: 0, text: "No excessive hair growth" },
+                        { value: 1, text: "Mild - few hairs on chin/upper lip" },
+                        { value: 2, text: "Moderate - noticeable hair on face/body" },
+                        { value: 3, text: "Severe - significant hair growth affecting appearance" }
+                    ]
+                },
+                {
+                    id: 3,
+                    text: "How much physical activity do you get per week?",
+                    type: "radio",
+                    options: [
+                        { value: 0, text: "Regular exercise (5+ hours/week)" },
+                        { value: 1, text: "Moderate activity (3-4 hours/week)" },
+                        { value: 2, text: "Light activity (1-2 hours/week)" },
+                        { value: 3, text: "Sedentary lifestyle (less than 1 hour/week)" }
+                    ]
+                },
+                {
+                    id: 4,
+                    text: "How would you describe your diet?",
+                    type: "radio",
+                    options: [
+                        { value: 0, text: "Balanced, home-cooked meals" },
+                        { value: 1, text: "Mostly healthy with occasional fast food" },
+                        { value: 2, text: "Mixed diet with regular processed foods" },
+                        { value: 3, text: "Frequent fast food and sugary drinks" }
+                    ]
+                },
+                {
+                    id: 5,
+                    text: "How many hours of sleep do you typically get per night?",
+                    type: "radio",
+                    options: [
+                        { value: 0, text: "7-9 hours (recommended)" },
+                        { value: 1, text: "6-7 hours" },
+                        { value: 2, text: "5-6 hours" },
+                        { value: 3, text: "Less than 5 hours" }
+                    ]
+                },
+                {
+                    id: 6,
+                    text: "Do you have a family history of PCOS or diabetes?",
+                    type: "radio",
+                    options: [
+                        { value: 0, text: "No family history" },
+                        { value: 1, text: "Distant relatives only" },
+                        { value: 2, text: "One immediate family member" },
+                        { value: 3, text: "Multiple immediate family members" }
+                    ]
+                }
+            ];
+
+            displayQuestion();
+        }
+
+        function displayQuestion() {
+            if (currentQuestion >= assessmentQuestions.length) return;
+
+            const question = assessmentQuestions[currentQuestion];
+            const container = document.getElementById('question-container');
+            if (!container) return;
+            
+            let html = `
+                <div class="mb-6">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800">Question ${currentQuestion + 1} of ${assessmentQuestions.length}</h3>
+                    <p class="text-lg mb-4 text-gray-800">${question.text}</p>
+                    <div class="space-y-3">
+            `;
+
+            question.options.forEach(option => {
+                html += `
+                    <label class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg hover:bg-blue-50 cursor-pointer">
+                        <input type="radio" name="question_${question.id}" value="${option.value}" class="text-blue-600 focus:ring-blue-500" 
+                               ${assessmentAnswers[question.id] == option.value ? 'checked' : ''}>
+                        <span class="text-gray-700">${option.text}</span>
+                    </label>
+                `;
+            });
+
+            html += '</div></div>';
+            container.innerHTML = html;
+
+            updateProgress();
+            updateButtons();
+        }
+
+        function nextQuestion() {
+            const question = assessmentQuestions[currentQuestion];
+            const selectedValue = document.querySelector(`input[name="question_${question.id}"]:checked`);
+            
+            if (!selectedValue) {
+                showAlert('Please select an answer before proceeding.', 'warning');
+                return;
+            }
+
+            assessmentAnswers[question.id] = parseInt(selectedValue.value);
+            
+            if (currentQuestion < assessmentQuestions.length - 1) {
+                currentQuestion++;
+                displayQuestion();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                displayQuestion();
+            }
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / assessmentQuestions.length) * 100;
+            const progressBar = document.getElementById('progress-bar');
+            const progressText = document.getElementById('progress-text');
+            
+            if (progressBar) progressBar.style.width = progress + '%';
+            if (progressText) progressText.textContent = Math.round(progress) + '%';
+        }
+
+        function updateButtons() {
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const submitBtn = document.getElementById('submit-btn');
+
+            if (prevBtn) prevBtn.disabled = currentQuestion === 0;
+            
+            if (currentQuestion === assessmentQuestions.length - 1) {
+                if (nextBtn) nextBtn.classList.add('hidden');
+                if (submitBtn) submitBtn.classList.remove('hidden');
+            } else {
+                if (nextBtn) nextBtn.classList.remove('hidden');
+                if (submitBtn) submitBtn.classList.add('hidden');
+            }
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // BMI calculation
+            const weightInput = document.querySelector('input[name="weight"]');
+            const heightInput = document.querySelector('input[name="height"]');
+            const bmiInput = document.querySelector('input[name="bmi"]');
+
+            if (weightInput && heightInput && bmiInput) {
+                [weightInput, heightInput].forEach(input => {
+                    input.addEventListener('input', function() {
+                        const weight = parseFloat(weightInput.value);
+                        const height = parseFloat(heightInput.value) / 100; // Convert cm to m
+                        
+                        if (weight && height) {
+                            const bmi = weight / (height * height);
+                            bmiInput.value = bmi.toFixed(1);
+                        }
+                    });
+                });
+            }
+
+            // Prediction form
+            const predictionForm = document.getElementById('prediction-form');
+            if (predictionForm) {
+                predictionForm.addEventListener('submit', handlePrediction);
+            }
+
+            // Assessment form
+            const assessmentForm = document.getElementById('assessment-form');
+            if (assessmentForm) {
+                assessmentForm.addEventListener('submit', handleAssessmentSubmission);
+            }
+
+            // Contact form
+            const contactForm = document.getElementById('contact-form');
+            if (contactForm) {
+                contactForm.addEventListener('submit', handleContactSubmission);
+            }
+
+            // Symptom tracker form
+            const symptomForm = document.getElementById('symptom-tracker-form');
+            if (symptomForm) {
+                symptomForm.addEventListener('submit', handleSymptomSubmission);
+            }
+
+            // Symptom severity selection
+            document.addEventListener('click', function(event) {
+                if (event.target.classList.contains('severity-option')) {
+                    const symptom = event.target.dataset.symptom;
+                    const severity = event.target.dataset.severity;
+                    
+                    // Remove selected class from all options for this symptom
+                    const allOptions = document.querySelectorAll(`[data-symptom="${symptom}"]`);
+                    allOptions.forEach(opt => opt.classList.remove('selected'));
+                    
+                    // Add selected class to clicked option
+                    event.target.classList.add('selected');
+                }
+            });
+        }
+
+        // Prediction handling
+        async function handlePrediction(event) {
+            event.preventDefault();
+            
+            if (!currentUser) {
+                showAlert('Please login to access the prediction feature.', 'warning');
+                showSection('login');
+                return;
+            }
+
+            const form = document.getElementById('prediction-form');
+            if (!form) return;
+            
+            const formData = new FormData(form);
+            const inputData = {};
+            
+            // Convert form data to proper types
+            for (let [key, value] of formData.entries()) {
+                if (key === 'bmi') {
+                    inputData[key] = parseFloat(value) || 0;
+                } else if (['skin_darkening', 'hair_growth', 'weight_gain', 'pimples', 'fast_food', 'regular_exercise', 'mood_swings', 'family_history'].includes(key)) {
+                    inputData[key] = parseInt(value);
+                } else {
+                    inputData[key] = parseFloat(value) || 0;
+                }
+            }
+
+            // Validate input data
+            if (!validatePredictionInput(inputData)) {
+                showAlert('Please fill all required fields with valid values.', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        },
+                    body: JSON.stringify(inputData)
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayPredictionResults(data, inputData);
+                    // Reload dashboard to show the new prediction
+                    loadDashboardData();
+                } else {
+                    showAlert('Prediction failed: ' + data.message, 'error');
+                }
+            } catch (error) {
+                console.error('Prediction error:', error);
+                showAlert('Prediction service unavailable. Please try again.', 'error');
+            }
+        }
+
+        function validatePredictionInput(data) {
+            const requiredFields = ['age', 'weight', 'height', 'cycle_length'];
+            
+            for (let field of requiredFields) {
+                if (!data[field] || data[field] <= 0) {
+                    return false;
+                }
+            }
+            
+            // Check binary fields
+            const binaryFields = ['skin_darkening', 'hair_growth', 'weight_gain', 'pimples', 'fast_food', 'regular_exercise', 'mood_swings', 'family_history'];
+            for (let field of binaryFields) {
+                if (data[field] === undefined || data[field] === null) {
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+
+        function displayPredictionResults(prediction, inputData) {
+            const resultsContainer = document.getElementById('prediction-results');
+            const resultsContent = document.getElementById('results-content');
+            
+            if (!resultsContainer || !resultsContent) return;
+            
+            resultsContainer.classList.remove('hidden');
+            
+            const riskColor = prediction.probability.pcos >= 0.7 ? 'red' : prediction.probability.pcos >= 0.4 ? 'yellow' : 'green';
+            const riskColorClass = prediction.probability.pcos >= 0.7 ? 'text-red-600' : prediction.probability.pcos >= 0.4 ? 'text-yellow-600' : 'text-green-600';
+            
+            resultsContent.innerHTML = `
+                <div class="prediction-result rounded-lg p-6 mb-6">
+                    <div class="text-center mb-6">
+                        <h4 class="text-2xl font-bold mb-2">Prediction Result</h4>
+                        <div class="text-4xl font-bold ${riskColorClass} mb-2">
+                            ${prediction.prediction === 1 ? 'PCOS POSITIVE' : 'PCOS NEGATIVE'}
+                        </div>
+                        <div class="text-xl text-gray-600">
+                            Risk Probability: ${(prediction.probability.pcos * 100).toFixed(1)}%
+                        </div>
+                        <div class="text-xl text-gray-500">
+                            Confidence: ${(prediction.confidence * 100).toFixed(1)}% | Severity: ${prediction.severity || 'Not assessed'}
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="flex justify-between text-lg mb-1">
+                            <span>Risk Assessment</span>
+                            <span>${(prediction.probability.pcos * 100).toFixed(1)}%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-3">
+                            <div class="bg-${riskColor}-500 h-3 rounded-full" style="width: ${prediction.probability.pcos * 100}%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid lg:grid-cols-2 gap-6">
+                    <div class="bg-white rounded-2xl border p-4">
+                        <h5 class="font-semibold mb-3 text-red-600">Risk Factors Identified</h5>
+                        ${prediction.risk_factors && prediction.risk_factors.length > 0 ? 
+                            prediction.risk_factors.map(factor => `
+                                <div class="mb-2 p-2 bg-red-50 rounded">
+                                    <div class="font-lg text-red-800">${factor}</div>
+                                </div>
+                            `).join('') : 
+                            '<p class="text-gray-500">No significant risk factors identified</p>'
+                        }
+                    </div>
+                    
+                    <div class="bg-white rounded-lg border p-4">
+                        <h5 class="font-semibold mb-3 text-blue-600">Recommendations</h5>
+                        <ul class="space-y-2">
+                            ${prediction.recommendations && prediction.recommendations.length > 0 ? 
+                                prediction.recommendations.slice(0, 5).map(rec => `
+                                    <li class="text-gray-600 flex items-start">
+                                        <i class="fas fa-check-circle text-blue-500 mr-2 mt-0.5"></i>
+                                        ${rec}
+                                    </li>
+                                `).join('') : 
+                                `
+                                <li class="text-gray-600 flex items-start">
+                                    <i class="fas fa-check-circle text-blue-500 mr-2 mt-0.5"></i>
+                                    Consult with a healthcare provider for proper diagnosis
+                                </li>
+                                <li class="text-gray-600 flex items-start">
+                                    <i class="fas fa-check-circle text-blue-500 mr-2 mt-0.5"></i>
+                                    Maintain a healthy lifestyle with balanced diet
+                                </li>
+                                <li class="text-gray-600 flex items-start">
+                                    <i class="fas fa-check-circle text-blue-500 mr-2 mt-0.5"></i>
+                                    Regular physical activity (30-45 minutes, 5 times/week)
+                                </li>
+                                `
+                            }
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="mt-6 text-center">
+                    <button onclick="generatePDFReport(${JSON.stringify(prediction).replace(/"/g, '&quot;')}, ${JSON.stringify(inputData).replace(/"/g, '&quot;')})" 
+                            class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-300 mr-4">
+                        <i class="fas fa-download mr-2"></i>Download PDF Report
+                    </button>
+                    <button onclick="saveToHistory(${JSON.stringify(prediction).replace(/"/g, '&quot;')}, ${JSON.stringify(inputData).replace(/"/g, '&quot;')})" 
+                            class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition duration-300">
+                        <i class="fas fa-save mr-2"></i>Save to History
+                    </button>
+                </div>
+                
+                <div class="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                    <div class="flex">
+                        <i class="fas fa-exclamation-triangle text-yellow-600 mr-2"></i>
+                        <div class="text-yellow-800">
+                            <strong>Disclaimer:</strong> This prediction is for informational purposes only and should not replace professional medical advice. 
+                            Please consult with a healthcare provider for proper diagnosis and treatment.
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Enhanced PDF Report Generation - FIXED VERSION
+        async function generatePDFReport(prediction, inputData) {
+            try {
+                showAlert('Generating PDF report...', 'info');
+                
+                // Check if jsPDF is available
+                if (typeof jsPDF === 'undefined') {
+                    throw new Error('PDF library not loaded. Please check if jsPDF is included.');
+                }
+
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                
+                // Set initial y position
+                let yPos = 20;
+                
+                // Professional Cover Page
+                doc.setFillColor(40, 40, 150);
+                doc.rect(0, 0, 210, 297, 'F');
+                
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(32);
+                doc.setFont("helvetica", "bold");
+                doc.text("PCOS CARE", 105, 80, { align: "center" });
+                
+                doc.setFontSize(20);
+                doc.text("MEDICAL ANALYSIS REPORT", 105, 100, { align: "center" });
+                
+                doc.setFontSize(16);
+                doc.text("Comprehensive PCOS Risk Assessment", 105, 120, { align: "center" });
+                
+                // Patient Information Box
+                doc.setFillColor(255, 255, 255);
+                doc.rect(30, 140, 150, 60, 'F');
+                doc.setTextColor(0, 0, 0);
+                doc.setFontSize(14);
+                doc.text("PATIENT REPORT", 105, 150, { align: "center" });
+                
+                doc.setFontSize(10);
+                doc.text(`Patient: ${currentUser ? currentUser.name : 'Not provided'}`, 40, 165);
+                doc.text(`Age: ${inputData.age} years | Gender: ${currentUser?.gender || 'Not provided'}`, 40, 175);
+                doc.text(`Report Date: ${new Date().toLocaleDateString()}`, 40, 185);
+                doc.text(`Report ID: PCOS-${Date.now().toString().slice(-6)}`, 40, 195);
+                
+                // Add page for detailed content
+                doc.addPage();
+                yPos = 20;
+                
+                // Executive Summary
+                doc.setFontSize(18);
+                doc.setTextColor(40, 40, 150);
+                doc.text("EXECUTIVE SUMMARY", 20, yPos);
+                yPos += 15;
+                
+                doc.setFontSize(10);
+                doc.setTextColor(0, 0, 0);
+                const resultText = prediction.prediction === 1 ? 'POSITIVE' : 'NEGATIVE';
+                const resultColor = prediction.prediction === 1 ? [220, 0, 0] : [0, 150, 0];
+                
+                doc.setTextColor(...resultColor);
+                doc.setFont("helvetica", "bold");
+                doc.text(`PCOS Prediction: ${resultText}`, 25, yPos);
+                yPos += 8;
+                
+                doc.setTextColor(0, 0, 0);
+                doc.setFont("helvetica", "normal");
+                doc.text(`Risk Probability: ${(prediction.probability.pcos * 100).toFixed(1)}%`, 25, yPos);
+                yPos += 6;
+               
+                doc.text(`Severity Assessment: ${prediction.severity || 'Not assessed'}`, 25, yPos);
+                yPos += 15;
+                
+                // Health Metrics Table
+                if (yPos > 200) {
+                    doc.addPage();
+                    yPos = 20;
+                }
+                
+                doc.setFontSize(16);
+                doc.setTextColor(40, 40, 150);
+                doc.text("HEALTH METRICS ANALYSIS", 20, yPos);
+                yPos += 10;
+                
+                // Create health metrics table
+                const healthMetrics = [
+                    ['Parameter', 'Value'],
+                    ['Age', `${inputData.age} years`],
+                    ['BMI', inputData.bmi.toFixed(1)],
+                    ['Cycle Length', `${inputData.cycle_length} days`],
+                    ['Waist-Hip Ratio', inputData.waist_hip_ratio.toFixed(2)],
+                    ['Sleep Hours', `${inputData.sleep_hours} hrs/night`],
+                    ['Stress Level', `${inputData.stress_level}/10`],
+                    ['Blood Pressure', `${inputData.blood_pressure} mmHg`]
+                ];
+                
+                doc.autoTable({
+                    startY: yPos,
+                    head: [healthMetrics[0]],
+                    body: healthMetrics.slice(1),
+                    theme: 'grid',
+                    headStyles: { fillColor: [40, 40, 150] },
+                    styles: { fontSize: 8 },
+                    columnStyles: {
+                        0: { cellWidth: 50 },
+                        1: { cellWidth: 30 },
+                        2: { cellWidth: 60 }
+                    }
+                });
+                
+                yPos = doc.lastAutoTable.finalY + 15;
+                
+                // Risk Factors
+                if (prediction.risk_factors && prediction.risk_factors.length > 0) {
+                    if (yPos > 200) {
+                        doc.addPage();
+                        yPos = 20;
+                    }
+                    
+                    doc.setFontSize(16);
+                    doc.setTextColor(40, 40, 150);
+                    doc.text("IDENTIFIED RISK FACTORS", 20, yPos);
+                    yPos += 10;
+                    
+                    doc.setFontSize(10);
+                    doc.setTextColor(0, 0, 0);
+                    prediction.risk_factors.forEach((factor, index) => {
+                        if (yPos > 270) {
+                            doc.addPage();
+                            yPos = 20;
+                        }
+                        doc.text(`${index + 1}. ${factor}`, 25, yPos);
+                        yPos += 6;
+                    });
+                    yPos += 10;
+                }
+                
+                // Recommendations
+                if (yPos > 180) {
+                    doc.addPage();
+                    yPos = 20;
+                }
+                
+                doc.setFontSize(16);
+                doc.setTextColor(40, 40, 150);
+                doc.text("MEDICAL RECOMMENDATIONS", 20, yPos);
+                yPos += 10;
+                
+                doc.setFontSize(10);
+                doc.setTextColor(0, 0, 0);
+                
+                const recommendations = prediction.recommendations || [
+                    "Consult with a healthcare provider for proper diagnosis",
+                    "Maintain a healthy lifestyle with balanced diet",
+                    "Regular physical activity (30-45 minutes, 5 times/week)",
+                    "Monitor symptoms and track menstrual cycles",
+                    "Consider blood tests for hormone levels"
+                ];
+                
+                recommendations.forEach((rec, index) => {
+                    if (yPos > 270) {
+                        doc.addPage();
+                        yPos = 20;
+                    }
+                    doc.text(`${index + 1}. ${rec}`, 25, yPos);
+                    yPos += 6;
+                });
+
+                // Technical Specifications
+                doc.addPage();
+                yPos = 20;
+                
+                doc.setFontSize(16);
+                doc.setTextColor(40, 40, 150);
+                doc.text("TECHNICAL SPECIFICATIONS", 20, yPos);
+                yPos += 10;
+                
+                doc.setFontSize(10);
+                doc.setTextColor(0, 0, 0);
+                
+                const techSpecs = [
+                    
+                    `Analysis Date: ${new Date().toLocaleString()}`,
+                    `Parameters Analyzed: 16 clinical parameters`,
+                    `Report Version: 2.0`,
+                    `Generated By: PCOS Care AI System`
+                ];
+                
+                techSpecs.forEach(spec => {
+                    doc.text(spec, 25, yPos);
+                    yPos += 6;
+                });
+
+                // Footer on all pages
+                const pageCount = doc.internal.getNumberOfPages();
+                for (let i = 1; i <= pageCount; i++) {
+                    doc.setPage(i);
+                    doc.setFontSize(8);
+                    doc.setTextColor(100, 100, 100);
+                    doc.text(`PCOS Care System - Confidential Medical Report - Page ${i} of ${pageCount}`, 105, 290, { align: "center" });
+                    doc.text(`Generated on: ${new Date().toLocaleString()} | For informational purposes only`, 105, 295, { align: "center" });
+                }
+                
+                // Save the PDF
+                const fileName = `PCOS_Medical_Report_${currentUser ? currentUser.name.replace(/\s+/g, '_') : 'Patient'}_${new Date().toISOString().split('T')[0]}.pdf`;
+                doc.save(fileName);
+                
+                showAlert('Professional PDF report downloaded successfully!', 'success');
+                
+            } catch (error) {
+                console.error('PDF generation error:', error);
+                showAlert('Failed to generate PDF report: ' + error.message, 'error');
+                
+                // Fallback: Generate HTML printable version
+                generateHTMLReport(prediction, inputData);
+            }
+        }
+
+        // Helper functions for PDF assessment
+        function getAgeAssessment(age) {
+            if (age < 20) return 'Young adult';
+            if (age <= 35) return 'Reproductive age';
+            return 'Mature adult';
+        }
+
+        function getBMIAssessment(bmi) {
+            if (bmi < 18.5) return 'Underweight';
+            if (bmi < 25) return 'Normal';
+            if (bmi < 30) return 'Overweight';
+            return 'Obese';
+        }
+
+        function getCycleAssessment(cycle) {
+            if (cycle < 21) return 'Short cycle';
+            if (cycle <= 35) return 'Normal';
+            return 'Long cycle';
+        }
+
+        function getWHRAssessment(whr) {
+            if (whr < 0.8) return 'Low risk';
+            if (whr <= 0.85) return 'Moderate risk';
+            return 'High risk';
+        }
+
+        function getSleepAssessment(sleep) {
+            if (sleep < 6) return 'Insufficient';
+            if (sleep <= 9) return 'Adequate';
+            return 'Excessive';
+        }
+
+        function getStressAssessment(stress) {
+            if (stress < 4) return 'Low';
+            if (stress <= 7) return 'Moderate';
+            return 'High';
+        }
+
+        function getBPAssessment(bp) {
+            if (bp < 120) return 'Normal';
+            if (bp <= 139) return 'Elevated';
+            return 'High';
+        }
+
+        // Fallback HTML Report Generator
+        function generateHTMLReport(prediction, inputData) {
+            const reportWindow = window.open('', '_blank');
+            const reportContent = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>PCOS Medical Report</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+                        .header { text-align: center; border-bottom: 3px solid #283593; padding-bottom: 20px; margin-bottom: 30px; }
+                        .section { margin-bottom: 30px; }
+                        .risk-high { color: #d32f2f; font-weight: bold; }
+                        .risk-medium { color: #f57c00; font-weight: bold; }
+                        .risk-low { color: #388e3c; font-weight: bold; }
+                        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+                        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+                        th { background-color: #283593; color: white; }
+                        .disclaimer { background: #fff3cd; border: 1px solid #ffeaa7; padding: 15px; margin: 20px 0; }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <h1>PCOS CARE MEDICAL REPORT</h1>
+                        <h2>Comprehensive Risk Assessment</h2>
+                        <p>Generated: ${new Date().toLocaleString()}</p>
+                    </div>
+                    
+                    <div class="section">
+                        <h3>Executive Summary</h3>
+                        <p><strong>Prediction Result:</strong> 
+                            <span class="${prediction.prediction === 1 ? 'risk-high' : 'risk-low'}">
+                                ${prediction.prediction === 1 ? 'PCOS POSITIVE' : 'PCOS NEGATIVE'}
+                            </span>
+                        </p>
+                        <p><strong>Risk Probability:</strong> ${(prediction.probability.pcos * 100).toFixed(1)}%</p>
+                        <p><strong>Severity:</strong> ${prediction.severity || 'Not assessed'}</p>
+                    </div>
+                    
+                    <div class="section">
+                        <h3>Health Metrics</h3>
+                        <table>
+                            <tr><th>Parameter</th><th>Value</th></tr>
+                            ${Object.entries(inputData).map(([key, value]) => `
+                                <tr>
+                                    <td>${formatKey(key)}</td>
+                                    <td>${typeof value === 'number' ? value.toFixed(2) : value}</td>
+                                   
+                                </tr>
+                            `).join('')}
+                        </table>
+                    </div>
+                    
+                    <div class="section">
+                        <h3>Recommendations</h3>
+                        <ol>
+                            ${(prediction.recommendations || []).map(rec => `<li>${rec}</li>`).join('')}
+                        </ol>
+                    </div>
+                    
+                    <div class="disclaimer">
+                        <strong>Disclaimer:</strong> This report is generated for informational purposes only and should not replace professional medical advice. 
+                        Please consult with a qualified healthcare provider for proper diagnosis and treatment.
+                    </div>
+                </body>
+                </html>
+            `;
+            
+            reportWindow.document.write(reportContent);
+            reportWindow.document.close();
+            reportWindow.print();
+        }
+
+        function formatKey(key) {
+            return key.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+        }
+
+        // Save prediction to history - FIXED VERSION
+        async function saveToHistory(prediction, inputData) {
+            try {
+                showAlert('Saving prediction to history...', 'info');
+                
+                // Save to localStorage
+                let predictionHistory = JSON.parse(localStorage.getItem('predictionHistory') || '[]');
+                
+                const predictionRecord = {
+                    id: Date.now().toString(),
+                    date: new Date().toISOString(),
+                    prediction: prediction,
+                    inputData: inputData,
+                    user: currentUser ? {
+                        name: currentUser.name,
+                        email: currentUser.email
+                    } : null
+                };
+                
+                predictionHistory.unshift(predictionRecord);
+                localStorage.setItem('predictionHistory', JSON.stringify(predictionHistory));
+                
+                showAlert('Prediction saved to history successfully!', 'success');
+                
+                // Update dashboard
+                loadDashboardData();
+                
+            } catch (error) {
+                console.error('Save to history error:', error);
+                showAlert('Failed to save prediction to history.', 'error');
+            }
+        }
+
+        // Assessment submission
+        function handleAssessmentSubmission(event) {
+            event.preventDefault();
+            
+            // Save current question answer
+            const question = assessmentQuestions[currentQuestion];
+            const selectedValue = document.querySelector(`input[name="question_${question.id}"]:checked`);
+            
+            if (!selectedValue) {
+                showAlert('Please answer the current question before submitting.', 'warning');
+                return;
+            }
+            
+            assessmentAnswers[question.id] = parseInt(selectedValue.value);
+            
+            // Calculate assessment score
+            const totalScore = Object.values(assessmentAnswers).reduce((sum, val) => sum + val, 0);
+            const maxScore = assessmentQuestions.length * 3; // Max value is 3 for most questions
+            const riskPercentage = (totalScore / maxScore) * 100;
+            
+            // Show results
+            showAssessmentResults(riskPercentage, assessmentAnswers);
+        }
+
+        function showAssessmentResults(riskPercentage, answers) {
+            const container = document.getElementById('question-container');
+            if (!container) return;
+            
+            const riskLevel = riskPercentage >= 70 ? 'High' : riskPercentage >= 40 ? 'Medium' : 'Low';
+            const riskColor = riskPercentage >= 70 ? 'red' : riskPercentage >= 40 ? 'yellow' : 'green';
+            
+            container.innerHTML = `
+                <div class="text-center">
+                    <div class="bg-white rounded-lg shadow-lg p-8">
+                        <h3 class="text-2xl font-bold mb-4 text-gray-800">Assessment Results</h3>
+                        <div class="mb-6">
+                            <div class="text-4xl font-bold text-${riskColor}-600 mb-2">${riskLevel} Risk</div>
+                            <div class="text-lg text-gray-600">Risk Score: ${riskPercentage.toFixed(1)}%</div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <div class="w-full bg-gray-200 rounded-full h-4">
+                                <div class="bg-${riskColor}-500 h-4 rounded-full transition-all duration-300" style="width: ${riskPercentage}%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-left mb-6">
+                            <h4 class="font-semibold mb-3 text-gray-800">Based on your responses:</h4>
+                            <ul class="space-y-2 text-sm text-gray-600">
+                                ${generateAssessmentRecommendations(riskPercentage).map(rec => 
+                                    `<li class="flex items-start"><i class="fas fa-check-circle text-blue-500 mr-2 mt-0.5"></i>${rec}</li>`
+                                ).join('')}
+                            </ul>
+                        </div>
+                        
+                        <div class="space-x-4">
+                            <button onclick="showSection('prediction')" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-300">
+                                Get Detailed Prediction
+                            </button>
+                            <button onclick="resetAssessment()" class="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition duration-300">
+                                Retake Assessment
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const submitBtn = document.getElementById('submit-btn');
+            
+            if (prevBtn) prevBtn.classList.add('hidden');
+            if (nextBtn) nextBtn.classList.add('hidden');
+            if (submitBtn) submitBtn.classList.add('hidden');
+        }
+
+        function generateAssessmentRecommendations(riskPercentage) {
+            const recommendations = [];
+            
+            if (riskPercentage >= 70) {
+                recommendations.push("Consider consulting a healthcare provider for professional evaluation");
+                recommendations.push("Monitor your menstrual cycle and symptoms closely");
+                recommendations.push("Consider lifestyle modifications including diet and exercise");
+                recommendations.push("Get detailed prediction analysis for comprehensive assessment");
+            } else if (riskPercentage >= 40) {
+                recommendations.push("Continue monitoring your symptoms and cycle patterns");
+                recommendations.push("Maintain a healthy lifestyle with regular exercise");
+                recommendations.push("Consider periodic self-assessments to track changes");
+                recommendations.push("Stay informed about PCOS symptoms and prevention");
+            } else {
+                recommendations.push("Continue maintaining healthy lifestyle habits");
+                recommendations.push("Stay aware of PCOS symptoms for early detection");
+                recommendations.push("Regular self-assessments can help with early intervention");
+                recommendations.push("Focus on overall reproductive health and wellness");
+            }
+            
+            return recommendations;
+        }
+
+        function resetAssessment() {
+            currentQuestion = 0;
+            assessmentAnswers = {};
+            loadAssessmentQuestions();
+            
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const submitBtn = document.getElementById('submit-btn');
+            
+            if (prevBtn) prevBtn.classList.remove('hidden');
+            if (nextBtn) nextBtn.classList.remove('hidden');
+            if (submitBtn) submitBtn.classList.add('hidden');
+        }
+
+        // Symptom tracker submission
+        async function handleSymptomSubmission(event) {
+            event.preventDefault();
+            
+            if (!currentUser) {
+                showAlert('Please login to track your symptoms.', 'warning');
+                showSection('login');
+                return;
+            }
+
+            // Collect symptom data
+            const symptoms = {};
+            const selectedOptions = document.querySelectorAll('.severity-option.selected');
+            
+            selectedOptions.forEach(option => {
+                symptoms[option.dataset.symptom] = parseInt(option.dataset.severity);
+            });
+
+            const notes = document.getElementById('symptom-notes');
+            const periodCheckbox = document.getElementById('period-checkbox');
+            const ovulationCheckbox = document.getElementById('ovulation-checkbox');
+            
+            const symptomData = {
+                symptoms: symptoms,
+                notes: notes ? notes.value : '',
+                period: periodCheckbox ? periodCheckbox.checked : false,
+                ovulation: ovulationCheckbox ? ovulationCheckbox.checked : false,
+                date: selectedDate.toISOString()
+            };
+
+            // Save to localStorage for demo purposes
+            const dateKey = `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${selectedDate.getDate()}`;
+            localStorage.setItem(`symptomData_${dateKey}`, JSON.stringify(symptomData));
+
+            try {
+                const response = await fetch('/user/symptoms', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        },
+                    body: JSON.stringify(symptomData)
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    showAlert('Symptoms tracked successfully!', 'success');
+                    
+                    // Update calendar
+                    updateCalendar();
+                    
+                    // Update symptom history
+                    loadSymptomHistory();
+                    
+                    // Update dashboard
+                    loadDashboardData();
+                } else {
+                    showAlert(data.message, 'error');
+                }
+            } catch (error) {
+                console.error('Symptom tracking error:', error);
+                showAlert('Failed to save symptoms. Please try again.', 'error');
+            }
+        }
+
+        // Contact form functions
+        async function handleContactSubmission(event) {
+            event.preventDefault();
+            
+            const form = document.getElementById('contact-form');
+            if (!form) return;
+            
+            const formData = new FormData(form);
+            const contactData = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                subject: formData.get('subject'),
+                message: formData.get('message')
+            };
+
+            // Validate form data
+            if (!contactData.name || !contactData.email || !contactData.subject || !contactData.message) {
+                showAlert('Please fill in all fields before sending.', 'warning');
+                return;
+            }
+
+            // Validate email format
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(contactData.email)) {
+                showAlert('Please enter a valid email address.', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        },
+                    body: JSON.stringify(contactData)
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    showAlert('Message sent successfully! We will get back to you soon.', 'success');
+                    resetContactForm();
+                } else {
+                    showAlert(data.message, 'error');
+                }
+            } catch (error) {
+                console.error('Contact form error:', error);
+                showAlert('Failed to send message. Please try again.', 'error');
+            }
+        }
+
+        function resetContactForm() {
+            const contactForm = document.getElementById('contact-form');
+            if (contactForm) contactForm.reset();
+        }
+
+        // Load user profile
+        async function loadUserProfile() {
+            const profileInfo = document.getElementById('profile-info');
+            const profileName = document.getElementById('profile-name');
+            
+            if (!currentUser) return;
+            
+            try {
+                const response = await fetch('/user/profile');
+                const data = await response.json();
+                
+                if (data.success) {
+                    const user = data.user;
+                    
+                    // Update profile name
+                    if (profileName) profileName.textContent = `Welcome, ${user.name}!`;
+                    
+                    // Load profile information
+                    if (profileInfo) {
+                        profileInfo.innerHTML = `
+                            <div class="space-y-3">
+                                <div class="flex justify-between border-b pb-2 border-gray-200">
+                                    <span class="font-semibold">Name:</span>
+                                    <span>${user.name}</span>
+                                </div>
+                                <div class="flex justify-between border-b pb-2 border-gray-200">
+                                    <span class="font-semibold">Email:</span>
+                                    <span>${user.email}</span>
+                                </div>
+                                <div class="flex justify-between border-b pb-2 border-gray-200">
+                                    <span class="font-semibold">Age:</span>
+                                    <span>${user.age || 'Not provided'}</span>
+                                </div>
+                                <div class="flex justify-between border-b pb-2 border-gray-200">
+                                    <span class="font-semibold">Phone:</span>
+                                    <span>${user.phone || 'Not provided'}</span>
+                                </div>
+                                <div class="flex justify-between border-b pb-2 border-gray-200">
+                                    <span class="font-semibold">Gender:</span>
+                                    <span>${user.gender || 'Not provided'}</span>
+                                </div>
+                                <div class="flex justify-between border-b pb-2 border-gray-200">
+                                    <span class="font-semibold">Member Since:</span>
+                                    <span>${user.created_at}</span>
+                                </div>
+                            </div>
+                        `;
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to load user profile:', error);
+            }
+        }
+
+        // Make functions globally available
+        window.showSection = showSection;
+        window.login = login;
+        window.register = register;
+        window.logout = logout;
+        window.nextQuestion = nextQuestion;
+        window.previousQuestion = previousQuestion;
+        window.handlePrediction = handlePrediction;
+        window.handleSymptomSubmission = handleSymptomSubmission;
+        window.handleContactSubmission = handleContactSubmission;
+        window.advancedNavClick = function(element) {
+            // Simple navigation click handler
+            console.log('Navigation clicked:', element);
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lifestyle Tips - PCOS Care</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg {
+    background: linear-gradient(135deg, #1e3a5f 0%, #4a5568 100%);
+}
+.medical-gradient {
+    background: linear-gradient(135deg, #4a7863 0%, #5d8b7a 100%);
+}
+.section-fade {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease-in-out;
+}
+        .floating-card {
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+        .floating-card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+
+    <!-- Navigation -->
+    <nav class="gradient-bg shadow-lg fixed w-full z-50 top-0">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-heartbeat text-white text-3xl"></i>
+                    <span class="text-white font-bold text-2xl">PCOS Care</span>
+                </div>
+                <div class="hidden md:flex space-x-6">
+    <a href="{{ url_for('index') }}" class="text-white text-lg hover:text-blue-200 transition duration-300">Home</a>
+    <a href="{{ url_for('guide') }}" class="text-white text-lg hover:text-blue-200 transition duration-300">PCOS Guide</a>
+    <a href="{{ url_for('treatment') }}" class="text-white text-lg hover:text-blue-200 transition duration-300">Treatment</a>
+    <a href="{{ url_for('lifestyle') }}" class="text-white text-lg hover:text-blue-200 transition duration-300">Lifestyle</a>
+
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-20">
+
+        <!-- Hero Section -->
+        <section class="medical-gradient text-white py-16">
+            <div class="container mx-auto px-4 text-center">
+                <h1 class="text-5xl font-bold mb-6">Lifestyle Management for PCOS</h1>
+                <p class="text-xl mb-8 max-w-3xl mx-auto">
+                    Discover effective lifestyle strategies to manage PCOS symptoms, improve overall health, and enhance quality of life.
+                </p>
+            </div>
+        </section>
+
+        <!-- Lifestyle Tips Section -->
+        <section class="py-12">
+            <div class="container mx-auto px-4">
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    
+                    <!-- Nutrition Card -->
+                    <div class="floating-card bg-white rounded-xl shadow-xl p-6 text-center">
+                        <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-apple-alt text-green-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Nutrition & Diet</h3>
+                        <ul class="text-gray-600 space-y-2 text-left">
+                            <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2"></i> Low glycemic index foods</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2"></i> Balanced macronutrients</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2"></i> Anti-inflammatory foods</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2"></i> Regular meal timing</li>
+                        </ul>
+                    </div>
+
+                    <!-- Exercise Card -->
+                    <div class="floating-card bg-white rounded-xl shadow-xl p-6 text-center">
+                        <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-running text-blue-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Exercise & Activity</h3>
+                        <ul class="text-gray-600 space-y-2 text-left">
+                            <li class="flex items-center"><i class="fas fa-check-circle text-blue-500 mr-2"></i> 150 mins moderate exercise/week</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-blue-500 mr-2"></i> Strength training 2-3x/week</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-blue-500 mr-2"></i> HIIT workouts</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-blue-500 mr-2"></i> Daily walking routine</li>
+                        </ul>
+                    </div>
+
+                    <!-- Stress Management Card -->
+                    <div class="floating-card bg-white rounded-xl shadow-xl p-6 text-center">
+                        <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-spa text-purple-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Stress Management</h3>
+                        <ul class="text-gray-600 space-y-2 text-left">
+                            <li class="flex items-center"><i class="fas fa-check-circle text-purple-500 mr-2"></i> Meditation & mindfulness</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-purple-500 mr-2"></i> Yoga and breathing exercises</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-purple-500 mr-2"></i> Adequate sleep (7-9 hours)</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-purple-500 mr-2"></i> Relaxation techniques</li>
+                        </ul>
+                    </div>
+
+                    <!-- Sleep Card -->
+                    <div class="floating-card bg-white rounded-xl shadow-xl p-6 text-center">
+                        <div class="bg-yellow-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-bed text-yellow-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Sleep & Recovery</h3>
+                        <ul class="text-gray-600 space-y-2 text-left">
+                            <li class="flex items-center"><i class="fas fa-check-circle text-yellow-500 mr-2"></i> Consistent sleep schedule</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-yellow-500 mr-2"></i> Sleep-friendly environment</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-yellow-500 mr-2"></i> Limit screen time before bed</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-yellow-500 mr-2"></i> Relaxing bedtime routine</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Detailed Lifestyle Tips -->
+        <section class="py-12 bg-gray-100">
+            <div class="container mx-auto px-4">
+                <h2 class="text-4xl font-bold text-center text-gray-800 mb-12">Comprehensive Lifestyle Strategies</h2>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    
+                    <!-- Dietary Recommendations -->
+                    <div class="floating-card bg-white rounded-xl shadow-xl p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-utensils text-green-600 text-xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-800">Dietary Guidelines</h3>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-green-800 mb-2">Foods to Include</h4>
+                                <ul class="text-green-700 space-y-1">
+                                    <li>• High-fiber vegetables and fruits</li>
+                                    <li>• Lean proteins (chicken, fish, tofu)</li>
+                                    <li>• Healthy fats (avocado, nuts, olive oil)</li>
+                                    <li>• Complex carbohydrates (oats, quinoa)</li>
+                                </ul>
+                            </div>
+                            <div class="bg-red-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-red-800 mb-2">Foods to Limit</h4>
+                                <ul class="text-red-700 space-y-1">
+                                    <li>• Refined sugars and carbohydrates</li>
+                                    <li>• Processed and fast foods</li>
+                                    <li>• Sugary beverages</li>
+                                    <li>• Excessive dairy products</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Exercise Plan -->
+                    <div class="floating-card bg-white rounded-xl shadow-xl p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-dumbbell text-blue-600 text-xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-800">Exercise Program</h3>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-blue-800 mb-2">Weekly Schedule</h4>
+                                <ul class="text-blue-700 space-y-2">
+                                    <li><strong>Monday:</strong> Strength training (30-45 mins)</li>
+                                    <li><strong>Tuesday:</strong> Cardio (30 mins) + Yoga</li>
+                                    <li><strong>Wednesday:</strong> Active rest (walking)</li>
+                                    <li><strong>Thursday:</strong> HIIT workout (20-30 mins)</li>
+                                    <li><strong>Friday:</strong> Strength training (30-45 mins)</li>
+                                    <li><strong>Weekend:</strong> Active recovery</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Additional Tips -->
+                <div class="grid md:grid-cols-2 gap-8 mt-8">
+                    <div class="floating-card bg-white rounded-xl shadow-xl p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="bg-purple-100 w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-brain text-purple-600 text-xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-800">Mental Wellness</h3>
+                        </div>
+                        <ul class="text-gray-600 space-y-3">
+                            <li class="flex items-center"><i class="fas fa-check text-purple-500 mr-3"></i> Practice daily gratitude journaling</li>
+                            <li class="flex items-center"><i class="fas fa-check text-purple-500 mr-3"></i> Connect with support communities</li>
+                            <li class="flex items-center"><i class="fas fa-check text-purple-500 mr-3"></i> Set realistic health goals</li>
+                            <li class="flex items-center"><i class="fas fa-check text-purple-500 mr-3"></i> Celebrate small victories</li>
+                        </ul>
+                    </div>
+
+                    <div class="floating-card bg-white rounded-xl shadow-xl p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="bg-yellow-100 w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-heart text-yellow-600 text-xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-800">Long-term Health</h3>
+                        </div>
+                        <ul class="text-gray-600 space-y-3">
+                            <li class="flex items-center"><i class="fas fa-check text-yellow-500 mr-3"></i> Regular health check-ups</li>
+                            <li class="flex items-center"><i class="fas fa-check text-yellow-500 mr-3"></i> Monitor symptoms and progress</li>
+                            <li class="flex items-center"><i class="fas fa-check text-yellow-500 mr-3"></i> Stay informed about PCOS research</li>
+                            <li class="flex items-center"><i class="fas fa-check text-yellow-500 mr-3"></i> Build sustainable habits</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-8">
+        <div class="container mx-auto px-6 text-center">
+            <div class="flex items-center justify-center space-x-2 mb-4">
+                <i class="fas fa-heartbeat text-white text-2xl"></i>
+                <span class="text-white font-bold text-xl">PCOS Care</span>
+            </div>
+            <p class="text-gray-400 mb-4">
+                Empowering women with advanced PCOS diagnosis and management tools.
+            </p>
+            <p class="text-gray-500 text-sm">
+                © 2025 PCOS Care System | All Rights Reserved
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>
