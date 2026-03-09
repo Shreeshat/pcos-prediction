@@ -1,0 +1,6 @@
+flask
+pymongo
+dnspython
+scikit-learn
+numpy
+pandas
